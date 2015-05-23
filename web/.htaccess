@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^(.*)1414/astatus(.*)$ /1414/status.php
+RewriteRule ^(.*)1414/aretreiveinfo/(.+)$ /1414/theinfo.php
