@@ -1,20 +1,9 @@
 <?php
-	function printable($str) {
-		$allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#@$%^&*()~_-,={}[]\\|;?<>,+.\":\t`/\' ";
-		$text = "";
-		for($i = 0; $i < strlen($str); $i++) {
-			if(strstr($allowed, $str[$i])) {
-				$text = $text . $str[$i];
-				continue;
-			}
-			$text = $text . '_';
-		}
-		return $text;
-	}
+	include 'backend/global.php';
 	function main_screen() {
 		echo '<table width="100%" height="100%" id="1414main" border=0 style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px;">' . PHP_EOL;
 		echo '	<tr align="center" valign="center" height="100%">' . PHP_EOL;
-		echo '		<td width="100%" align=center><a href=".com"><img src="images/1414background.jpg" alt="1414"></a></td>' . PHP_EOL;
+		echo '		<td width="100%" align=center><a href="1414intl.com"><img src="images/1414background.jpg" alt="1414"></a></td>' . PHP_EOL;
 		echo '	</tr>' . PHP_EOL;
 		echo '	<tr align="center" valign="center" height="100%">' . PHP_EOL;
 		echo '		<td align=center bgcolor=white>' . PHP_EOL;
@@ -27,29 +16,27 @@
 		echo '	</tr>' . PHP_EOL;
 		echo '  <tr height=80>' . PHP_EOL;
 		echo '		<td align=center>' . PHP_EOL;
-		echo '			<a href=".com">partners</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
-		echo '			<a href=".com">rates</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
-		echo '			<a href=".com">how does it work</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
-		echo '			<a href=".com">about</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
+		echo '			<a href="1414intl.com">partners</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
+		echo '			<a href="1414intl.com">rates</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
+		echo '			<a href="1414intl.com">how does it work</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
+		echo '			<a href="1414intl.com">about</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
 		echo '		</td>' . PHP_EOL;
 		echo '	</tr>' . PHP_EOL;
 		echo '</table>' . PHP_EOL;
 		return 0;
 	}
-	function get_device_status() {
-		$mysql = mysqli_connect('127.0.0.1', 'root', '','voice');
-		if (mysqli_connect_errno()) {
-			echo 'Failed to connect to MySQL: ' . mysqli_connect_error();
-			return 0;
+	function get_device_status($link) {
+		$email = $_SESSION['EMAIL'];
+		$query = 'SELECT sd.status FROM `config_user` s JOIN `config_device` d ON s.user_id = d.user_id ';
+		$query .= 'JOIN `state_device` sd ON sd.device_id = d.device_id WHERE s.email = ? ';
+		if(($stmt = sql_query($link, $query, 's', array($email)))) {
+			mysqli_stmt_bind_result($stmt, $status);
+			exit_stmt($stmt);
 		}
-		$query = 'SELECT p.status FROM `cfg_user` s JOIN `state_1414` p ON s.user_id=p.user_id  WHERE email = "' . $_SESSION['EMAIL'] . '"';
-		$response = mysqli_query($mysql, $query);
-		$arr = mysqli_fetch_object($response);
-		echo printable($arr->status);
-		mysqli_close($mysql);
+		echo printable($status);
 		return 0;
 	}
-	function set_bt() {
+	function set_bt($link) {
 		echo '<form action=index.php>' . PHP_EOL;
 		echo '<input type="text" size="50" name="bt">' . PHP_EOL;
 		echo '<input type="submit" value="Set Bluetooth">' . PHP_EOL;
@@ -57,16 +44,16 @@
 		echo '</form>' . PHP_EOL;
 		return 0;
 	}
-	function facebook_details() { 
+	function facebook_details($link) { 
 		echo '<table border=0 cellspacing=10 width="800" height="300">' . PHP_EOL;
 		if(strlen($_GET['bt']) > 10) {
-			echo '<tr><td><b>Notification:</b></td><td>Please connect your bluetooth aa</td></tr>' . PHP_EOL;
+			echo '<tr><td><b>Notification:</b></td><td>Please connect your bluetooth to intl1414</td></tr>' . PHP_EOL;
 		}
 		echo '<tr><td><b>Status:</b></td><td>';
-		get_device_status();
+		get_device_status($link);
 		echo '</td></tr>' . PHP_EOL;
 		echo '<tr><td><b>Bluetooth:</b></td><td>';
-		set_bt();
+		set_bt($link);
 		echo '</td></tr>' . PHP_EOL;
 		echo '<tr><td><b>Facebook User Id:</b></td><td>' . $_SESSION['FBID'] . '</td></tr>' . PHP_EOL;
 		echo '<tr><td><b>Fullname:</b></td><td>' . $_SESSION['FULLNAME'] . '</td></tr>' . PHP_EOL;
@@ -75,40 +62,44 @@
 		echo '</table>' . PHP_EOL;
 		return 0;
 	}
-	function user_inner_screen() {
+	function user_inner_screen($link) {
 		echo '<table border=0 width="100%" height="100%" bgcolor=#E2E2E2 style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px;">' . PHP_EOL;
-		echo '	<tr><td>&nbsp;&nbsp;<a href="http://.com">Facebook details</a></td><td bgcolor=white rowspan=8 width="80%">' . PHP_EOL;
-		facebook_details();
+		echo '	<tr><td>&nbsp;&nbsp;<a href="http://1414intl.com">Facebook details</a></td><td bgcolor=white rowspan=8 width="80%">' . PHP_EOL;
+		facebook_details($link);
 		echo '</td></tr>' . PHP_EOL;
-		echo '	<tr><td>&nbsp;&nbsp;<a href="http://.com">Add Phone</a></td></tr>' . PHP_EOL;
-		echo '	<tr><td>&nbsp;&nbsp;<a href="http://.com">View Usage</a></td></tr>' . PHP_EOL;
-		echo '	<tr><td>&nbsp;&nbsp;<a href="http://.com">item4</a></td></tr>' . PHP_EOL;
-		echo '	<tr><td>&nbsp;&nbsp;<a href="http://.com">item5</a></td></tr>' . PHP_EOL;
-		echo '	<tr><td>&nbsp;&nbsp;<a href="http://.com">item6</a></td></tr>' . PHP_EOL;
-		echo '	<tr><td>&nbsp;&nbsp;<a href="http://.com">item7</a></td></tr>' . PHP_EOL;
-		echo '	<tr><td>&nbsp;&nbsp;<a href="http://.com">item8</a></td></tr>' . PHP_EOL;
+		echo '	<tr><td>&nbsp;&nbsp;<a href="http://1414intl.com">Add Phone</a></td></tr>' . PHP_EOL;
+		echo '	<tr><td>&nbsp;&nbsp;<a href="http://1414intl.com">View Usage</a></td></tr>' . PHP_EOL;
+		echo '	<tr><td>&nbsp;&nbsp;<a href="http://1414intl.com">item4</a></td></tr>' . PHP_EOL;
+		echo '	<tr><td>&nbsp;&nbsp;<a href="http://1414intl.com">item5</a></td></tr>' . PHP_EOL;
+		echo '	<tr><td>&nbsp;&nbsp;<a href="http://1414intl.com">item6</a></td></tr>' . PHP_EOL;
+		echo '	<tr><td>&nbsp;&nbsp;<a href="http://1414intl.com">item7</a></td></tr>' . PHP_EOL;
+		echo '	<tr><td>&nbsp;&nbsp;<a href="http://1414intl.com">item8</a></td></tr>' . PHP_EOL;
 		echo '</table>' . PHP_EOL;
 		return 0;
 	}
 	function user_screen() {
+		$link = db_connect();
 		echo '<table width="100%" height="100%" id="1414main" border=0 style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px;">' . PHP_EOL;
 		echo '	<tr align="center" valign="center">' . PHP_EOL;
-		echo '		<td width="100%" align=left><a href="http://.com"><img src="images/1414background.jpg" alt="1414"></a></td>' . PHP_EOL;
+		echo '		<td width="100%" align=left><a href="http://1414intl.com"><img src="images/1414background.jpg" alt="1414"></a></td>' . PHP_EOL;
 		echo '	</tr>' . PHP_EOL;
 		echo '	<tr align="center" valign="center" height="100%">' . PHP_EOL;
 		echo '		<td align=center bgcolor=#E2E2E2>' . PHP_EOL;
-		user_inner_screen();
+		user_inner_screen($link);
 		echo '		</td>' . PHP_EOL;
 		echo '	</tr>' . PHP_EOL;
 		echo '	<tr height=80>' . PHP_EOL;
 		echo '		<td align=center>' . PHP_EOL;
-		echo '			<a href=".com">partners</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
-		echo '			<a href=".com">rates</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
-		echo '			<a href=".com">how does it work</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
-		echo '			<a href=".com">about</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
+		echo '			<a href="1414intl.com">partners</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
+		echo '			<a href="1414intl.com">rates</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
+		echo '			<a href="1414intl.com">how does it work</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
+		echo '			<a href="1414intl.com">about</a>&nbsp;&nbsp;&nbsp;&nbsp;' . PHP_EOL;
 		echo '		</td>' . PHP_EOL;
 		echo '	</tr>' . PHP_EOL;
 		echo '</table>' . PHP_EOL;
+		if($link) {
+			mysqli_close($link);
+		}
 	}
 	session_start();
 ?>

@@ -1,0 +1,14 @@
+{
+    "package":{
+        "dial_plan":"connectChannelToIVR",
+        "params":{
+            "param1":"value1",
+            "paramN":"valueN"
+        },
+        "events":[
+            "disconnected","dtmf"
+        ]        
+    }
+}
+
+
