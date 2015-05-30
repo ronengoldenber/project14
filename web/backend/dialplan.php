@@ -47,6 +47,8 @@ function dialplan_xml($src, $dst, $bridge)
 		$phonedst = '1' . $phonedst;
 	}
 	logmsg_echo('		<action application="set" data="sip_h_X-call-number=' . $phonedst . '"/>');
+#	logmsg_echo('		<action application="answer"/>');
+#	logmsg_echo('		<action application="conference" data="meeting@mykeys"/>');
 	logmsg_echo('		<action application="bridge" data="' . $bridge . '"/>');
 	logmsg_echo('		<action application="hangup"/>');
 	logmsg_echo('	</condition>');

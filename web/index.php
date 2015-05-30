@@ -1,5 +1,5 @@
 <?php
-	include 'backend/global.php';
+	include 'backend/db.php';
 	function main_screen() {
 		echo '<table width="100%" height="100%" id="1414main" border=0 style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px;">' . PHP_EOL;
 		echo '	<tr align="center" valign="center" height="100%">' . PHP_EOL;
@@ -36,9 +36,28 @@
 		echo printable($status);
 		return 0;
 	}
+	function is_set_bt($link) {
+		if(isset($_POST['bt1']) && isset($_POST['bt2']) && isset($_POST['bt3']) && isset($_POST['bt4']) && isset($_POST['bt5']) && isset($_POST['bt6'])) {
+			$bt = $_POST['bt1'] . ':' . $_POST['bt2'] . ':' . $_POST['bt3'] . ':' . $_POST['bt4'] . ':' . $_POST['bt5'] . ':' . $_POST['bt6'];
+			echo '<font color=red><b>Set device bluetooth to [' . $bt . ']<br> Please wait 1 mintues before pairing your phone automatically </b></font>' . PHP_EOL;
+			$email = $_SESSION['EMAIL'];
+			$device_id = get_device_id_by_email($link, $email);
+			$query = 'INSERT INTO `state_cmd` (device_id, cmd) VALUES (?, ?) ';
+			$cmd = 'btadd ' . $bt . '';
+			sql_query($link, $query, 'ss', array($device_id, $cmd));
+			exit_stmt($stmt);
+			return 0;
+		}
+	}
 	function set_bt($link) {
-		echo '<form action=index.php>' . PHP_EOL;
-		echo '<input type="text" size="50" name="bt">' . PHP_EOL;
+		is_set_bt($link);
+		echo '<form action="index.php" method="post">' . PHP_EOL;
+		echo '<input type="text" size="1" maxlength="2" name="bt1"> :' . PHP_EOL;
+		echo '<input type="text" size="1" maxlength="2" name="bt2"> :' . PHP_EOL;
+		echo '<input type="text" size="1" maxlength="2" name="bt3"> :' . PHP_EOL;
+		echo '<input type="text" size="1" maxlength="2" name="bt4"> :' . PHP_EOL;
+		echo '<input type="text" size="1" maxlength="2" name="bt5"> :' . PHP_EOL;
+		echo '<input type="text" size="1" maxlength="2" name="bt6">' . PHP_EOL;
 		echo '<input type="submit" value="Set Bluetooth">' . PHP_EOL;
 		echo '<br>Settings->General->About->Bluetooth' . PHP_EOL;
 		echo '</form>' . PHP_EOL;
@@ -58,6 +77,7 @@
 		echo '<tr><td><b>Facebook User Id:</b></td><td>' . $_SESSION['FBID'] . '</td></tr>' . PHP_EOL;
 		echo '<tr><td><b>Fullname:</b></td><td>' . $_SESSION['FULLNAME'] . '</td></tr>' . PHP_EOL;
 		echo '<tr><td><b>Email:</b></td><td> ' . $_SESSION['EMAIL'] . '</td></tr>' . PHP_EOL;
+		echo '<tr><td><b>Token:</b></td><td> ' . print_r($_SESSION, true) . '</td></tr>' . PHP_EOL;
 		echo '<tr><td><b>Logout:</b></td><td> <a href="logout.php">Logout</a></td></tr>' . PHP_EOL;
 		echo '</table>' . PHP_EOL;
 		return 0;

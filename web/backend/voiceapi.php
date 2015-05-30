@@ -24,18 +24,27 @@ function get_name_from_phone_number($link) {
 	echo 'name';
 	return true;
 }
+function auth_device($link, $apikey, $username) {
+	if(strlen($apikey) <= 0 || strlen($username) <= 0) {
+		echo 'Invalid API Key ';
+		logmsg(LOG_DEBUG, 'Invalid API key because the apikey=[' . $apikey . '] username=[' . $username . '] ');
+		return false;
+	}
+	$app_apikey = get_apikey($link, $username);
+	if($apikey != $app_apikey) {
+		echo 'Wrong API Key ';
+		logmsg(LOG_DEBUG, 'Wrong API key [' . $apikey . '!=' . $app_appikey . '] ');
+		return false;
+	}
+	return true;
+}
 function set_device_status($link) {
 	$apikey = printable($_GET['apikey']);
 	$username = printable($_GET['username']);
 	$status = printable(file_get_contents('php://input'));
 	logmsg(LOG_DEBUG, 'Setting device status username [' . $username . '] status [' . $status . '] ' );
-	if(strlen($apikey) <= 0 || strlen($username) <= 0) {
-		echo 'Invalid API Key ';
-		return true;
-	}
-	$app_apikey = get_apikey($link, $username);
-	if($apikey != $app_apikey) {
-		echo 'Invalid API Key ';
+	if(!auth_device($link, $apikey, $username)) {
+		logmsg(LOG_DEBUG, 'Cannot auth device in set device status ');
 		return true;
 	}
 	$state_device_id = get_state_device_id_by_username($link, $username);
@@ -67,6 +76,19 @@ function get_device_apikey($link) {
 	return true;
 }
 
+function set_cmd($link) {
+	$apikey = printable($_GET['apikey']);
+	$username = printable($_GET['username']);  
+	if(!auth_device($link, $apikey, $username)) {
+		logmsg(LOG_DEBUG, 'Cannot auth device in set device status ');
+		return true;
+	}
+	$cmd = get_clicmd($link, $username);
+	logmsg(LOG_DEBUG, 'The cmd is [' . $cmd . '] ' );
+	echo $cmd;
+	return true;	
+}
+
 function handle_request($link) {
 	$cmd = $_GET['api'];
 	switch ($cmd) {
@@ -75,6 +97,7 @@ function handle_request($link) {
 		case 'set_username_details': return set_username_details($link);
 		case 'get_name_from_phone_number': return get_name_from_phone_number($link);
 		case 'set_device_status': return set_device_status($link);
+		case 'set_cmd' : return set_cmd($link);
 	}
 	return true;
 }
