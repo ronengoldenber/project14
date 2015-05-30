@@ -8,6 +8,16 @@ function get_user_id_by_email($link, $email) {
 	}
 	return $user_id;
 }
+function get_device_id_by_email($link, $email) { 
+	$device_id = '';
+	$query = 'SELECT d.`device_id` FROM `config_user` s JOIN `config_device` d ON s.`user_id` = d.`user_id` WHERE s.email = ? AND d.`device_type` = 1 LIMIT 1';
+	if(($stmt = sql_query($link, $query, 's', array($email)))) {
+		mysqli_stmt_bind_result($stmt, $device_id);
+		exit_stmt($stmt);
+	}
+	logmsg(LOG_DEBUG, 'the device id found [' . $device_id . '] by email [' . $email . '] '); 
+	return $device_id;
+}
 function get_state_device_id_by_username($link, $username) {
 	$state_device_id = '';
 	if(($stmt = sql_query($link, 'SELECT sd.state_device_id FROM config_device d JOIN state_device sd ON d.device_id = sd.device_id WHERE d.username = ?', 's', array($username)))) {
@@ -41,3 +51,19 @@ function get_apikey_by_username($link, $username) {
 	}
 	return $apikey;
 }
+function get_clicmd($link, $username) {
+	$query = 'SELECT sc.`cmd_id`, sc.`cmd` FROM `config_device` d JOIN `state_cmd` sc ON d.`device_id` = sc.`device_id` WHERE d.`username` = ? LIMIT 1';
+	if(!($stmt = sql_query($link, $query, 's', array($username)))) {
+		return true;
+	}
+	mysqli_stmt_bind_result($stmt, $cmd_id, $cmd);
+	exit_stmt($stmt);
+	if (isset($cmd) && isset($cmd_id) && $cmd != '' && $cmd_id != '' && strlen($cmd) > 0 && strlen($cmd_id) > 0) {
+		sql_query($link, 'DELETE FROM `state_cmd` WHERE `cmd_id` = ?', 's', array($cmd_id));
+		exit_stmt($stmt);
+	}
+	logmsg(LOG_DEBUG, 'The command found is [' . $cmd . '] ');
+	return $cmd;
+}
+
+

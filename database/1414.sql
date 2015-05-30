@@ -60,7 +60,7 @@ CREATE  TABLE IF NOT EXISTS `config_device` (
 	`user_id` INT(11) UNSIGNED NOT NULL,
 	`username` BIGINT(20) UNSIGNED NOT NULL,
 	`ha1` CHAR(64) NULL, 
-	`ring_order` TINYINT(1) UNSIGNED NULL DEFAULT 0 COMMENT 'order of ringing for UAC for the same user.' ,
+	`device_type` TINYINT(1) UNSIGNED NULL DEFAULT 0 COMMENT 'device type [1=1414, 0=regular]',
 	`row_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
 	PRIMARY KEY (`device_id`),
 	UNIQUE INDEX `config_device_device_user_id_index` (`user_id`, `device_id`),
@@ -85,10 +85,10 @@ CREATE TABLE `state_device`(
 
 CREATE TABLE `state_cmd`(
 	`cmd_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`user_id` INT(11) UNSIGNED NOT NULL,
+	`device_id` INT(11) UNSIGNED NOT NULL,
 	`cmd` VARCHAR(512) NOT NULL,
 	`row_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`cmd_id`),
-	KEY `state_cmd` (`user_id`),
-	CONSTRAINT `state_cmd_config_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `config_user` (`user_id`) ON DELETE CASCADE
+	KEY `state_cmd_device_id` (`device_id`),
+	CONSTRAINT `state_cmd_config_device_device_id` FOREIGN KEY (`device_id`) REFERENCES `config_device` (`device_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT = 290000000 DEFAULT CHARSET=latin1 CHECKSUM=1 ROW_FORMAT=DYNAMIC;

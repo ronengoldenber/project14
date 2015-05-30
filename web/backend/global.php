@@ -197,7 +197,7 @@ function makeRandomString($bits = 256) {
 	return $return;
 }
 function generate_nonce() {
-	return hash('sha512', makeRandomString());
+	return substr(hash('sha512', makeRandomString()), 0, 32);
 }
 function guid( $opt = false) {
 	if( function_exists('com_create_guid') ){
