@@ -1,0 +1,13 @@
+# /etc/modules: kernel modules to load at boot time.
+#
+# This file contains the names of kernel modules that should be loaded
+# at boot time, one per line. Lines beginning with "#" are ignored.
+# Parameters can be specified after the module name.
+
+#snd-bcm2835
+#snd_soc_bcm2708
+#snd_soc_bcm2708_i2s
+#bcm2708_dmaengine
+#snd-soc-pcm1794a
+#snd_soc_rpi_dac
+#snd-dummy
