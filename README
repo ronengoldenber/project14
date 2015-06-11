@@ -1,2 +1,19 @@
 # project14
 project14
+1. sudo apt-get update
+2. sudo apt-get install bluez pulseaudio-module-bluetooth python-gobject python-gobject-2
+3. sudo usermod -a -G lp pi
+4. sudo cp ~/project14/device/gold/etc/audio.conf /etc/bluetooth/audio.conf
+5. sudo cp ~/project14/device/gold/etc/main.conf /etc/bluetooth/main.conf
+6. sudo cp ~/project14/device/gold/pulseaudio-system.conf /etc/dbus-1/system.d/pulseaudio-system.conf
+7. sudo cp ~/project14/device/gold/etc/pulseaudio /etc/default/pulseaudio
+8. sudo cp ~/project14/device/gold/etc/pulseaudio_init /etc/init.d/pulseaudio
+9. sudo cp ~/project14/device/gold/etc/client.conf /etc/pulse/client.conf
+10. sudo cp ~/project14/device/gold/etc/daemon.conf /etc/pulse/daemon.conf
+11. sudo cp ~/project14/device/gold/etc/system.pa /etc/pulse/system.pa
+12. sudo cp ~/project14/device/gold/etc/ /etc/pulse/default.pa
+13. sudo cp ~/project14/device/gold/etc/default.pa /etc/pulse/default.pa
+14. sudo cp ~/project14/device/gold/etc/alsa-base.conf /etc/modprobe.d/alsa-base.conf
+15. sudo cp ~/project14/device/gold/etc/modules /etc/modules
+16. sudo vim /var/lib/bluetooth/00\:1A\:7D\:DA\:71\:14/config
+17. reboot
