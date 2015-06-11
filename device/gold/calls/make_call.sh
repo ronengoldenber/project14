@@ -9,7 +9,7 @@ function enable_modem() {
 	cd /home/pi/1414/phone/
 	enable_modem="`sudo ./enable-modem`"
 	sleep 2
-	return true;
+	return 0;
 }
 number="${1}"
 if [ "${number}" == "" ] ; then
@@ -26,6 +26,7 @@ if [ "${is_busy}" != "" ] ; then
 	log1414 "1414: Cannot call phone is already in a call "
 	exit 0
 fi
+sleep 2
 sudo ./dial-number ${data} > /dev/null 2>&1
 for i in `seq 1 1`; do
 	calls="`sudo ./list-calls | grep StartTime `"

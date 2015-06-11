@@ -71,7 +71,6 @@ function pjsip_keepalive() {
 	fi
 }
 function get_apikey() {
-	[ "${APIKEY}" != "" ] && return 0
 	log1414 "curl \"http://${BACKEND}/backend/voiceapi.php?api=get_device_nonce&username=${USERNAME}\""
 	nonce="`curl \"http://${BACKEND}/backend/voiceapi.php?api=get_device_nonce&username=${USERNAME}\"`"
 	log1414 "echo -n ${USERNAME}:${DOMAIN}:${PASSWORD} | md5sum | awk '{print \$1}'"

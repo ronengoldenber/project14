@@ -8,7 +8,7 @@ function log1414() {
 function disable_modem() {
 	cd /home/pi/1414/phone/
 	disable_modem="`sudo ./disable-modem`"
-	return true;
+	return 0
 }
 cd /home/pi/1414/phone/
 sudo ./hangup-all
