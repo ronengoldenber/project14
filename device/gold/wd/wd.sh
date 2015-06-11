@@ -83,6 +83,10 @@ function get_apikey() {
 	APIKEY="${apikey}"
 	set_env
 }
+if [ -e "/home/pi/1414/calls/on_incoming_call.txt" ] ; then
+	log1414 "Cannot run watch dog during incoming call "
+	exit 0
+fi
 get_env
 get_apikey
 remote_commands

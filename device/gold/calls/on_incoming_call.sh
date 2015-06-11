@@ -11,6 +11,8 @@ if [ "${data}" == "" ] ; then
 	log1414 "Cannot dial number is empty "
 	exit 1
 fi
+log1414 "Setting the on_incoming_call /home/pi/1414/calls/on_incoming_call.txt"
+echo "on_incoming_call" > /home/pi/1414/calls/on_incoming_call.txt
 log1414 "Dialing to [${data}] call id ["${call_id}"] /home/pi/1414/calls/make_call.sh ${data} "
 response="`/home/pi/1414/calls/make_call.sh \"${data}\"`"
 if [ "${response}" == "1414: Call Answered" ] ; then

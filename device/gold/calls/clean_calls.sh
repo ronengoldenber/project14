@@ -38,16 +38,23 @@ function get_voip() {
 	log1414 "voip = [${voip}]"
 	return 0
 }
+is_calls="a"
+is_voip="b"
+if [ -e "/home/pi/1414/calls/on_incoming_call.txt" ] ; then
+	log1414 "Cannot run clear calls during incoming call "
+	exit 0
+fi
 get_env
 get_calls
 send_status
 get_voip
 get_calls
 if [ "${is_calls}" == "1" ] && [ "${is_voip}" == "0" ] ; then
-	log1414 "need to hangup"
+	log1414 "need to hangup [is_calls=${is_calls}][is_voip=${is_voip}]"
 	/home/pi/1414/calls/voip_hangup_all.sh
 fi
 if [ "${is_calls}" == "0" ] && [ "${is_voip}" == "1" ] ; then
+	log1414 "need to hangup1 [is_calls=${is_calls}][is_voip=${is_voip}]"
 	cd /home/pi/1414/phone/
 	sudo ./hangup-all
 fi

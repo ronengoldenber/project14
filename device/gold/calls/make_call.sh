@@ -7,6 +7,7 @@ function log1414() {
 }
 function enable_modem() {
 	cd /home/pi/1414/phone/
+	log1414 "sudo ./enable-modem"
 	enable_modem="`sudo ./enable-modem`"
 	sleep 2
 	return 0;
@@ -21,19 +22,14 @@ data="${number}"
 log1414 "1414: Calling ${data}..."
 cd /home/pi/1414/phone/
 enable_modem
+log1414 "sudo ./list-calls | grep LineIdentification"
 is_busy="`sudo ./list-calls | grep LineIdentification`"
 if [ "${is_busy}" != "" ] ; then
 	log1414 "1414: Cannot call phone is already in a call "
 	exit 0
 fi
 sleep 2
+log1414 "sudo ./dial-number ${data}"
 sudo ./dial-number ${data} > /dev/null 2>&1
-for i in `seq 1 1`; do
-	calls="`sudo ./list-calls | grep StartTime `"
-	log1414 "Check if the call is answered "
-	if [ "${calls}" != "" ] ; then
-		break
-	fi
-done
 log1414 "1414: Call Answered"
 echo "1414: Call Answered"
