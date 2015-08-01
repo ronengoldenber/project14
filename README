@@ -17,3 +17,8 @@ project14
 15. sudo cp ~/project14/device/gold/etc/modules /etc/modules
 16. sudo vim /var/lib/bluetooth/00\:1A\:7D\:DA\:71\:14/config
 17. reboot
+18. sudo adduser pi pulse-access
+19. sudo apt-get install bluetooth bluez-utils blueman
+20. apt-get install bluez-tools
+27. apt-get install expect
+28. apt-get install ofono
