@@ -11,8 +11,7 @@ project14
 9. sudo cp ~/project14/device/gold/etc/client.conf /etc/pulse/client.conf
 10. sudo cp ~/project14/device/gold/etc/daemon.conf /etc/pulse/daemon.conf
 11. sudo cp ~/project14/device/gold/etc/system.pa /etc/pulse/system.pa
-12. sudo cp ~/project14/device/gold/etc/ /etc/pulse/default.pa
-13. sudo cp ~/project14/device/gold/etc/default.pa /etc/pulse/default.pa
+12. sudo cp ~/project14/device/gold/etc/default.pa /etc/pulse/default.pa
 14. sudo cp ~/project14/device/gold/etc/alsa-base.conf /etc/modprobe.d/alsa-base.conf
 15. sudo cp ~/project14/device/gold/etc/modules /etc/modules
 16. sudo vim /var/lib/bluetooth/00\:1A\:7D\:DA\:71\:14/config
@@ -22,3 +21,15 @@ project14
 20. apt-get install bluez-tools
 27. apt-get install expect
 28. apt-get install ofono
+
+linphone python
+1. rsync -rl --delete-after --safe-links pi@192.168.1.131:/{lib,usr} ~/raspbian-rootfs
+2. cd ~/raspbian-rootfs/usr/lib
+3. ln -s arm-linux-gnueabihf/libasound.so
+4. ln -s arm-linux-gnueabihf/libX11.so
+5. ln -s arm-linux-gnueabihf/libXv.so
+6. git clone git://git.linphone.org/linphone-cmake-builder.git
+7. make -C WORK/python-raspberry/cmake
+8. export PATH=$PATH:/root/rpi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin/:/root/rpi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian
+9. export RASPBIAN_ROOTFS=/root/raspbian-rootfs/
+

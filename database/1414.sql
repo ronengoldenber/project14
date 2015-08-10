@@ -61,27 +61,37 @@ CREATE  TABLE IF NOT EXISTS `config_device` (
 	`username` BIGINT(20) UNSIGNED NOT NULL,
 	`ha1` CHAR(64) NULL, 
 	`device_type` TINYINT(1) UNSIGNED NULL DEFAULT 0 COMMENT 'device type [1=1414, 0=regular]',
+	`country` INT(11) UNSIGNED NULL DEFAULT 1 COMMENT 'Country type',
 	`row_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
 	PRIMARY KEY (`device_id`),
 	UNIQUE INDEX `config_device_device_user_id_index` (`user_id`, `device_id`),
 	INDEX `config_device_user_id_index` (`user_id` ASC),
 	UNIQUE INDEX `config_device_username_unique_index` (`username` ASC),
 	CONSTRAINT `config_device_user_id_foreign_key` FOREIGN KEY (`user_id`) REFERENCES `config_user` (`user_id` ) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 270000000 DEFAULT CHARACTER SET = latin1 CHECKSUM = 1 COMMENT = 'User Agent Client' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 270000000 DEFAULT CHARACTER SET = latin1 CHECKSUM = 1 COMMENT = 'Device ' ROW_FORMAT = DYNAMIC;
+
+CREATE  TABLE IF NOT EXISTS `config_device_group` (
+	`device_group_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`src_username` BIGINT(20) UNSIGNED NOT NULL,
+	`dst_username` BIGINT(20) UNSIGNED NOT NULL,
+	`row_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
+	PRIMARY KEY (`device_group_id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 280000000 DEFAULT CHARACTER SET = latin1 CHECKSUM = 1 COMMENT = 'Device Group' ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE `state_device`(
 	`state_device_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`device_id` INT(11) UNSIGNED NOT NULL,
-	`ip` INT(11) UNSIGNED NOT NULL,
+	`ip` INT(11) SIGNED NOT NULL,
 	`status` VARCHAR(512) NOT NULL,
 	`bt` BIGINT(20) UNSIGNED NOT NULL,
+	`btstatus` VARCHAR(128) NOT NULL,
 	`nonce` VARCHAR(128) NULL,
 	`apikey` VARCHAR(128) NULL,
 	`row_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`state_device_id`),
 	KEY `state_device_device_id` (`device_id`),
 	CONSTRAINT `state_device_config_device_device_id` FOREIGN KEY (`device_id`) REFERENCES `config_device` (`device_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT = 280000000 DEFAULT CHARSET=latin1 CHECKSUM=1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT = 290000000 DEFAULT CHARSET=latin1 CHECKSUM=1 ROW_FORMAT=DYNAMIC;
 
 CREATE TABLE `state_cmd`(
 	`cmd_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -91,4 +101,4 @@ CREATE TABLE `state_cmd`(
 	PRIMARY KEY (`cmd_id`),
 	KEY `state_cmd_device_id` (`device_id`),
 	CONSTRAINT `state_cmd_config_device_device_id` FOREIGN KEY (`device_id`) REFERENCES `config_device` (`device_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT = 290000000 DEFAULT CHARSET=latin1 CHECKSUM=1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT = 300000000 DEFAULT CHARSET=latin1 CHECKSUM=1 ROW_FORMAT=DYNAMIC;
