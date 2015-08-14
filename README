@@ -29,7 +29,8 @@ linphone python
 4. ln -s arm-linux-gnueabihf/libX11.so
 5. ln -s arm-linux-gnueabihf/libXv.so
 6. git clone git://git.linphone.org/linphone-cmake-builder.git
-7. make -C WORK/python-raspberry/cmake
+7. python prepare.py python-raspberry
+7. make build-python-raspberry -- -DCMAKE_BUILD_TYPE=Release (make -C WORK/python-raspberry/cmake)
 8. export PATH=$PATH:/root/rpi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin/:/root/rpi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian
 9. export RASPBIAN_ROOTFS=/root/raspbian-rootfs/
 
