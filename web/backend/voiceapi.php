@@ -24,6 +24,28 @@ function get_name_from_phone_number($link) {
 	echo 'name';
 	return true;
 }
+function get_device_version($link) {
+	$apikey = printable($_GET['apikey']);
+	$username = printable($_GET['username']);
+	logmsg(LOG_DEBUG, 'Getting device version username [' . $username . '] ');
+	if(!auth_device($link, $apikey, $username)) {
+		logmsg(LOG_DEBUG, 'Cannot auth device in set device status ');
+		return true;
+	}
+	$country = get_country_by_username($link, $username);
+	if (!isset($country) || $country == '' || strlen($country) == 0) { 
+		logmsg(LOG_DEBUG, 'There is no country to the device ');
+		return true;
+	}
+	$file = '';
+	if($country == '1') $file = 'us';
+	if($country == '972') $file = 'il';
+	if($file == '' ) { 
+		logmsg(LOG_DEBUG, 'The country [' . $country . '] is not supported ');
+		return true;
+	}
+	download_file('/var/www/1414/device/pj1414' . $file);
+}
 function auth_device($link, $apikey, $username) {
 	if(strlen($apikey) <= 0 || strlen($username) <= 0) {
 		echo 'Invalid API Key ';
@@ -42,13 +64,32 @@ function set_device_status($link) {
 	$apikey = printable($_GET['apikey']);
 	$username = printable($_GET['username']);
 	$status = printable(file_get_contents('php://input'));
-	logmsg(LOG_DEBUG, 'Setting device status username [' . $username . '] status [' . $status . '] ' );
+	$ip = printable($_GET['ip']);
+	$ip = ip2long($ip);
+	logmsg(LOG_DEBUG, 'Setting device status username [' . $username . '] status [' . $status . '] ip [' . $ip . '] ');
 	if(!auth_device($link, $apikey, $username)) {
 		logmsg(LOG_DEBUG, 'Cannot auth device in set device status ');
 		return true;
 	}
 	$state_device_id = get_state_device_id_by_username($link, $username);
-	if(($stmt = sql_query($link, 'UPDATE state_device SET status = ?  WHERE state_device_id = ?', 'sd', array($status, $state_device_id)))) {
+	if(($stmt = sql_query($link, 'UPDATE state_device SET status = ?, ip = ?  WHERE state_device_id = ?', 'sdd', array($status, $ip, $state_device_id)))) {
+		exit_stmt($stmt);
+	}
+	return true;
+}
+function set_device_btstatus($link) {
+	$apikey = printable($_GET['apikey']);
+	$username = printable($_GET['username']);
+	$btstatus = printable(file_get_contents('php://input'));
+	$ip = printable($_GET['ip']);
+	$ip = ip2long($ip);
+	logmsg(LOG_DEBUG, 'Setting device bt status username [' . $username . '] bt status [' . $btstatus . ']  ip [' . $ip . '] ');
+	if(!auth_device($link, $apikey, $username)) {
+		logmsg(LOG_DEBUG, 'Cannot auth device in set device bt status ');
+		return true;
+	}
+	$state_device_id = get_state_device_id_by_username($link, $username);
+	if(($stmt = sql_query($link, 'UPDATE state_device SET btstatus = ?, ip = ?  WHERE state_device_id = ?', 'sdd', array($btstatus, $ip, $state_device_id)))) {
 		exit_stmt($stmt);
 	}
 	return true;
@@ -88,7 +129,6 @@ function set_cmd($link) {
 	echo $cmd;
 	return true;	
 }
-
 function handle_request($link) {
 	$cmd = $_GET['api'];
 	switch ($cmd) {
@@ -96,8 +136,10 @@ function handle_request($link) {
 		case 'get_device_apikey' : return get_device_apikey($link);
 		case 'set_username_details': return set_username_details($link);
 		case 'get_name_from_phone_number': return get_name_from_phone_number($link);
+		case 'get_device_version' : return get_device_version($link);
 		case 'set_device_status': return set_device_status($link);
 		case 'set_cmd' : return set_cmd($link);
+		case 'set_device_btstatus' : return set_device_btstatus($link);
 	}
 	return true;
 }

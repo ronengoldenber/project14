@@ -14,7 +14,7 @@ use Facebook\Entities\AccessToken;
 use Facebook\HttpClients\FacebookCurlHttpClient;
 use Facebook\HttpClients\FacebookHttpable;
 // init app with app id and secret
-FacebookSession::setDefaultApplication('', '');
+FacebookSession::setDefaultApplication('1629113783967407', '29f23f2066632fd2f94a5bb1d5809297');
 // login helper with redirect_uri
     $helper = new FacebookRedirectLoginHelper('http://www.1414intl.com/fbconfig.php');
 try {

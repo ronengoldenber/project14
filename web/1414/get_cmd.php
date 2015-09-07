@@ -7,7 +7,7 @@
 	if (!isset($_POST) || !isset($_POST['email'])) {
 		exit;
 	}
-	$mysql = mysqli_connect('127.0.0.1', '', '','voice');
+	$mysql = mysqli_connect('127.0.0.1', 'root', 'lannet1','voice');
 	if (mysqli_connect_errno()) {
 		echo 'Failed to connect to MySQL [' . mysqli_connect_error() . '] ';
 	}

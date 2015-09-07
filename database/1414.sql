@@ -33,6 +33,7 @@ CREATE  TABLE IF NOT EXISTS `config_user` (
 	`lname` VARCHAR(50) NULL DEFAULT NULL COMMENT 'user Last name',
 	`email` VARCHAR(256) NULL DEFAULT NULL COMMENT 'user email',
 	`language` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '[1=us,2=de]',
+	`ha1` CHAR(64) NULL DEFAULT NULL COMMENT 'user password',
 	`type` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '[1=default,0=regular]',
 	`row_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
 	PRIMARY KEY (`user_id`),
@@ -102,3 +103,18 @@ CREATE TABLE `state_cmd`(
 	KEY `state_cmd_device_id` (`device_id`),
 	CONSTRAINT `state_cmd_config_device_device_id` FOREIGN KEY (`device_id`) REFERENCES `config_device` (`device_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT = 300000000 DEFAULT CHARSET=latin1 CHECKSUM=1 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE `state_unauthorized_user`(
+	`unauthorized_user_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`tenant_id` INT(11) UNSIGNED NOT NULL,
+	`email` VARCHAR(256) NULL DEFAULT NULL COMMENT 'user email',
+	`ha1` CHAR(64) NULL DEFAULT NULL comment 'user password',
+	`url` VARCHAR(64) NULL DEFAULT NULL comment 'match url',
+	`row_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`unauthorized_user_id`),
+	INDEX `state_unauthorized_user_tenant_id_index` (`tenant_id` ASC),
+	UNIQUE INDEX `state_unauthorized_user_email_unique_index` (`email` ASC),
+	CONSTRAINT `state_unauthorized_user_tenant_id_foreign_key` FOREIGN KEY (`tenant_id`) REFERENCES `config_tenant` (`tenant_id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT = 320000000 DEFAULT CHARSET=latin1 CHECKSUM=1 ROW_FORMAT=DYNAMIC;
+
+

@@ -1,5 +1,6 @@
 <?php   
 include_once 'global.php';
+define('MULTI_REGISTRATION_MAX_SIZE',10);
 function main_directory() {
 	print_request();
 	$link = db_connect();
@@ -56,10 +57,11 @@ function directory_username($directory_info)
 	logmsg_echo("		<users>");
 	logmsg_echo("			<user id=\"" . $directory_info['user'] . "\">");
 	logmsg_echo("				<variables>");
-	logmsg_echo("					<variable name=\"user_context\" value=\"context_" . $directory_info['tenant_id'] . "\"/>");
-	logmsg_echo("					<variable name=\"force_transfer_context\" value=\"context_" . $directory_info['tenant_id'] . "\"/>");
+	logmsg_echo("					<variable name=\"user_context\" value=\"context_default\"/>");
+	logmsg_echo("					<variable name=\"force_transfer_context\" value=\"context_default\"/>");
 	logmsg_echo("					<variable name=\"user_originated\" value=\"true\"/>");
 	logmsg_echo("					<variable name=\"default_language\" value=\"en\"/>");
+	logmsg_echo("					<variable name=\"sip-force-contact\" value=\"NDLB-connectile-dysfunction\"/>");
 	logmsg_echo("				</variables>");
 	logmsg_echo("				<params>");
 	logmsg_echo("					<param name=\"a1-hash\" value=\"" . $directory_info['ha1'] . "\"/>");
