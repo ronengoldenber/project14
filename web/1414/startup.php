@@ -11,15 +11,15 @@
 		return 'text-shadow: -1px 0 ' . $color . ', 0 1px ' . $color . ', 1px 0 ' . $color . ', 0 -1px ' . $color . ';';
 	}
 	function main_screen() {
-		echo '<form action="authorize" method="post">' . PHP_EOL;
+		echo '<form action="authorizenumbers" method="post">' . PHP_EOL;
 		echo '<div id="bardiv"> ' . PHP_EOL;
 		echo '<table width="100%" cellpadding="10"><tr><td>' . PHP_EOL;
 		echo '<div><a href="http://1414intl.com/"><img src="http://1414intl.com/1414/images/1414bg.png" alt="1414"></a></div></td><td align="right">' . PHP_EOL;
 		echo '<div><font size=6 color=black>' . $_POST['email'] . '</font></div></td></tr></table>' . PHP_EOL;
 		echo '</div><br><br>' . PHP_EOL;
 		echo '<table width="100%" cellpadding="10"><tr><td align="center">' . PHP_EOL;
-		echo '<div id="authorizetitle" align="left"><font color=white style="' . contour('black') . '" size=6><table cellpadding=5><tr><td>Authorized Numbers</td</tr></table></font></div>' . PHP_EOL;
-		echo '<div id="authorize"><br>' . PHP_EOL;
+		echo '<div id="authorizenumberstitle" align="left"><font color=white style="' . contour('black') . '" size=6><table cellpadding=5><tr><td>Authorized Numbers</td</tr></table></font></div>' . PHP_EOL;
+		echo '<div id="authorizenumbers"><br>' . PHP_EOL;
 		for($i=0; $i<5; $i++) {
 			echo '<div id="subdiv" align=center><font color=black size=6>' .  phone_input('telephone' . $i) . '</font></div>' . PHP_EOL;
 		}
@@ -82,6 +82,7 @@
 	}
 	function isAuthorizedUser($link, $email, $password) {
 		$query = 'SELECT `email`, `ha1` FROM `config_user` WHERE `email` = ? ';
+		logmsg(LOG_DEBUG, 'Checking if the user is authorized');
 		if (!($stmt = sql_query($link, $query, 's', array($email)))) {
 			return 'Cannot validate user authorization';
 		}
@@ -97,7 +98,7 @@
 		exit_stmt($stmt);
 		return 'OK';
 	}
-	function isUnauthorizedUser($link, $email) {
+	function isUnauthorizedUser($link, $email, $password) {
 		$query = 'SELECT `email`, `url` FROM `state_unauthorized_user` WHERE `email` = ? ';
 		if (!($stmt = sql_query($link, $query, 's', array($email)))) {
 			return 'Could not get email [' . $email . '] status ';
@@ -105,6 +106,9 @@
 		mysqli_stmt_bind_result($stmt, $row['email'], $row['url']);
 		if (mysqli_stmt_num_rows($stmt) == 0) {
 			exit_stmt($stmt);
+			$query = 'INSERT INTO `state_unauthorized_user` (`tenant_id`, `email`, `ha1`, `url`) VALUES (240000000, ?, md5(concat(?, ":", "tmus", ":", ?)), ?);';
+			$random = bin2hex(openssl_random_pseudo_bytes(32));
+			$stmt = sql_query($link, $query, 'ssss', array($email, $email, $password, $random));
 			return 'Please verify [' . $email . '] ';
 		}
 		exit_stmt($stmt);
@@ -113,10 +117,10 @@
 	function choose_main_screen($link, $email, $password) {
 		$isAuthorizedUserStr = isAuthorizedUser($link, $email, $password);
 		if($isAuthorizedUserStr != 'This user is not authorized') { 
-			error_scren($isAuthorizedUserStr);
+			error_screen($isAuthorizedUserStr);
 			return;
 		}
-		$isUnauthorizedUser = isUnauthorizedUser($link, $email);
+		$isUnauthorizedUser = isUnauthorizedUser($link, $email, $password);
 		if ($isUnauthorizedUser != 'OK') { 
 			error_screen($isUnauthorizedUser);
 			return;

@@ -64,6 +64,7 @@
 		echo '<div id="subdiv"><input id="password" name="password" onchange="checkPassword();" onkeyup="checkPassword();" onpaste="checkPassword();" oninput="checkPassword();" onchange="checkPassword();" maxlength=40 size=25 type=password></font></div>' . PHP_EOL;
 		echo '<div id="subdivpassword"><font size=2>&nbsp;</font></div>' . PHP_EOL;
 		echo '<div id="subdiv"><a href=http://1414intl.com/forgot>Forgot your password?</a></div>' . PHP_EOL;
+		echo '<div id="subdiv"><a href=http://1414intl.com/join>New to 1414? Join now</a></div>' . PHP_EOL;
 		echo '<div id="subdiv"><font size=2 color=black> <input type="checkbox" name="pptos" value="false"> I agree to the Terms and Conditions and to the Privacy Policy</font></div>' . PHP_EOL;
 		echo '<div id="subdiv"><input type="image" name="submit" src="http://1414intl.com/1414/images/signinbig.png" border="0" alt="SignIn"/></div>' . PHP_EOL;
 		echo '</div>' . PHP_EOL;

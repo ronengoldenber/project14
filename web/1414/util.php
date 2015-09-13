@@ -1,6 +1,6 @@
 <?php
 	// Pear Mail Library
-	require_once "Mail.php";
+	require_once 'Mail.php';
 	function generate_spaces($num) {
 		for($i = 0; $i < $num; $i++) {
 			echo '&nbsp;';
@@ -18,8 +18,8 @@
 			'host' => 'ssl://smtp.gmail.com',
 			'port' => '465',
 			'auth' => true,
-			'username' => 'ronen.goldenber@gmail.com',
-			'password' => 'lannet23'
+			'username' => '1414call@gmail.com',
+			'password' => 'Lannet23'
 		));
 		$mail = $smtp->send($to, $headers, $body);
 		if (PEAR::isError($mail)) {
