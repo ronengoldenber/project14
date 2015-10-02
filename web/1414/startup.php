@@ -1,5 +1,4 @@
 <?php
-	include 'util.php';
 	include 'global.php';
 	function phone_input($name) {
 		return '(<input name=' . $name . 'a maxlength=3 size=5 type=tel>) <input name=' . $name . '1b maxlength=3 size=5 type=tel> - <input name=' . $name . '1c maxlength=4 size=6 type=tel>';

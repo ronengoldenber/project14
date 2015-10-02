@@ -24,10 +24,15 @@ function dialplan_gvoiceout($dst) {
 	if(strlen($phonedst) == 10 && substr($phonedst, 0, 1) != '0') {
 		$phonedst = '1' . $phonedst;
 	}
+#	if($phonedst == '16503389367') {
+#		$phonedst = '18002220300';
+#	}
 	logmsg_echo('<extension name="gvoice_out">');
 	logmsg_echo('	<condition>');
 	logmsg_echo('		<action application="set" data="hangup_after_bridge=false"/>');
-	logmsg_echo('		<action application="bridge" data="dingaling/gtalk/+18002220300@voice.google.com"/>');
+	logmsg_echo('		<action application="log" data="INFO calling to [' . $phonedst . ']"/>');
+	logmsg_echo('		<action application="bridge" data="dingaling/gtalk/+' . $phonedst . '@voice.google.com"/>');
+#	logmsg_echo('		<action application="bridge" data="sofia/gateway/sipus/' . $phonedst . '"/>');
 	logmsg_echo('	</condition>');
 	logmsg_echo('</extension>');
 	logmsg_echo('</context>');
@@ -102,10 +107,10 @@ function dialplan_xml($src, $dst, $bridge, $device_type, $variable_sip_user_agen
 		return 0;
 	}
 	$phonedst = $dst;
-#	if(substr($phonedst, 0, 1) != '0') {
-#		dialplan_gvoiceout($dst);
-#		return 0;
-#	}
+	if(substr($phonedst, 0, 4) == '1414') {
+		dialplan_gvoiceout(substr($dst, 4));
+		return 0;
+	}
 	logmsg_echo('	<extension continue="true" name="extension">');
 	logmsg_echo('	<condition>');
 	logmsg_echo('		<action application="set" data="hangup_after_bridge=true"/>');
@@ -158,10 +163,12 @@ function dialplan_xml($src, $dst, $bridge, $device_type, $variable_sip_user_agen
 //		logmsg_echo('       <action application="bridge" data="sofia/sipinterface/16509433364%tmusqa.com"/>');
 //	}
 //	if($device_type == '0') {
+	
 		logmsg_echo('		<action application="sched_hangup" data="+10800 alloted_timeout"/>');
 		logmsg_echo('		<action application="limit_execute" data="hash outbound carrier1 5 bridge ' . $bridge . '"/>');
 #		logmsg_echo('		<action application="bridge" data="' . $bridge . '"/>');
 //	}
+	logmsg_echo('		<action application="playback" data="/usr/local/freeswitch/sounds/he/allbusy.wav"/>');
 	logmsg_echo('		<action application="hangup"/>');
 	logmsg_echo('	</condition>');
 	logmsg_echo('	</extension>');

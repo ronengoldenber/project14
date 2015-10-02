@@ -1,6 +1,5 @@
 <?php
 include 'global.php';
-include 'util.php';
 function js_validate_fname() {
 	echo 'function validate_fname(fname) {' . PHP_EOL;
 	echo '	var re = /^[a-zA-Z]{2,15}$/i;' . PHP_EOL;

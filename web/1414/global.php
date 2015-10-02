@@ -1,5 +1,6 @@
 <?php
 include 'env.php';
+require_once 'Mail.php';
 function severity_tostring($severity) {
 	switch ($severity) {
 		case LOG_DEBUG  	:	return 'DEBUG: ';
@@ -140,6 +141,38 @@ function guid( $opt = false) {
 		. substr( $charid, 20, 12 )
 		. $right_curly;
 	return $uuid;
+}
+function generate_spaces($num) {
+	for($i = 0; $i < $num; $i++) {
+		echo '&nbsp;';
+	}
+}
+function sendemail($to, $subject, $body) {
+	// Pear Mail Library
+	$from = '1414call@gmail.com';
+	$headers = array(
+		'From' => $from,
+		'To' => $to,
+		'Subject' => $subject,
+		'MIME-Version' => '1.0',
+		'Content-Type' => 'text/html; charset=ISO-8859-1'
+	);
+	$smtp = Mail::factory('smtp', array(
+		'host' => 'ssl://smtp.gmail.com',
+		'port' => '465',
+		'auth' => true,
+		'username' => '1414call@gmail.com',
+		'password' => 'Lannet23'
+	));
+	logmsg(LOG_DEBUG, 'Sending email [to=' . $to . '][subject=' . $subject .'][body=' . $body .']');
+	$mail = $smtp->send($to, $headers, $body);
+	if (PEAR::isError($mail)) {
+		$error = $mail->getMessage();
+		logmsg(LOG_WARNING, $error);
+		return $error;
+	}
+	logmsg(LOG_DEBUG, 'Message succsesfully sent!');
+	return 'Message successfully sent!';
 }
 function download_file($fullpath) {
 	ignore_user_abort(true);

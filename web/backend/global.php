@@ -31,9 +31,9 @@ function logmsg ($severity, $message) {
 	$file 		=	(isset($arr[1]))	? $arr[1]['file']		: NULL;
 	$msg = severity_tostring($severity) . $function . '(' . $line . '):' . $message;
 	$msg = printable($msg);
-	openlog(basename($file), LOG_PID | LOG_PERROR, LOG_LOCAL0);
-	syslog($severity, $msg);
-	closelog();
+#	openlog(basename($file), LOG_PID | LOG_PERROR, LOG_LOCAL0);
+#	syslog($severity, $msg);
+#	closelog();
 #	echo "$msg";
 	return true;
 }

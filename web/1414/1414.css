@@ -254,3 +254,11 @@
 		background-size: 100%;
 		min-height: 100%;
 	}
+	#div_elipse {
+		background: url(http://1414intl.com/1414/images/elipse.png) no-repeat top center fixed;
+		-webkit-background-size: 100px;
+		-moz-background-size: 100px;
+		-o-background-size: 100px;
+		background-size: 100px;
+		min-height: 100px;
+	}

@@ -1,5 +1,4 @@
 <?php
-	include 'util.php';
 	include 'global.php';
 	function contour($color) { 
 		return 'text-shadow: -1px 0 ' . $color . ', 0 1px ' . $color . ', 1px 0 ' . $color . ', 0 -1px ' . $color . ';';
@@ -31,7 +30,7 @@
 		echo '<table width="100%" cellpadding="10"><tr><td align="center">' . PHP_EOL;
 		echo '<div id="queuetitlediv" align="left"><font color=white style="' . contour('black') . '" size=6><table cellpadding=5><tr><td>Verify</td</tr></table></font></div>' . PHP_EOL;
 		echo '<div id="queuediv"><br>' . PHP_EOL;
-		echo '<div id="subdiv" align=center><font color=black size=5><br>' . $email . ', thank you for choosing 1414<br>Please auhorize your email<br></font>' . PHP_EOL;
+		echo '<div id="subdiv" align=center><font color=black size=5><br>' . $email . ', thank you for choosing 1414<br>Please authorize your email<br></font>' . PHP_EOL;
 		echo '<div id="subdiv"><font size=1 color=black> <input type="checkbox" name="pptos" value="false"> I agree to the Terms and Conditions and to the Privacy Policy</font></div>' . PHP_EOL;
 		echo '<div id="subdiv" align="center"><input type="image" name="submit" src="http://1414intl.com/1414/images/save.png" border="0" alt="Save"/></div>' . PHP_EOL;
 		echo '</div>' . PHP_EOL;

@@ -107,9 +107,12 @@ CREATE TABLE `state_cmd`(
 CREATE TABLE `state_unauthorized_user`(
 	`unauthorized_user_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`tenant_id` INT(11) UNSIGNED NOT NULL,
-	`email` VARCHAR(256) NULL DEFAULT NULL COMMENT 'user email',
+	`fname` VARCHAR(32) NOT NULL COMMENT 'first name',
+	`lname` VARCHAR(32) NOT NULL COMMENT 'last name',
+	`email` VARCHAR(256) NOT NULL COMMENT 'user email',
 	`ha1` CHAR(64) NULL DEFAULT NULL comment 'user password',
 	`url` VARCHAR(64) NULL DEFAULT NULL comment 'match url',
+	`queue_number` INT(11) UNSIGNED NOT NULL,
 	`row_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`unauthorized_user_id`),
 	INDEX `state_unauthorized_user_tenant_id_index` (`tenant_id` ASC),

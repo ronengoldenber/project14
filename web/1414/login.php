@@ -1,5 +1,5 @@
 <?php
-	include 'util.php';
+	include_once 'global.php';
 	function js_login() {
 		echo '	<script>' . PHP_EOL;
 		echo '		function validateEmail(email) {' . PHP_EOL;
