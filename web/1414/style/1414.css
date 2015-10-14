@@ -160,7 +160,11 @@ header {
 	overflow-x: hidden;
 }
 .home {
-	background: url(http://1414intl.com/1414/images/phone_booth.jpg) no-repeat top center fixed;
+	background: url(http://1414intl.com/1414/images/webgirls.jpg) no-repeat top center fixed;
+	text-align:center;
+}
+.homemobile {
+	background: url(http://1414intl.com/1414/images/mobilegirls.jpg) no-repeat top center fixed;
 	text-align:center;
 }
 .overview {
@@ -255,7 +259,7 @@ pre.single {
 }
 @media (max-width:600px) {
 	
-	.home .inner {
+	.homemobile .home .inner {
 		padding-bottom:80px;
 	}
 }
@@ -561,14 +565,82 @@ input[type="tel"] {
 	background-size: 100%;
 	min-height: 100%;
 }
+#div_main_mobile {
+	background: url(http://1414intl.com/1414/images/mobilegirls.jpg) no-repeat top center fixed;
+	-webkit-background-size: 100%;
+	-moz-background-size: 100%;
+	-o-background-size: 100%;
+	background-size: 100%;
+	min-height: 100%;
+}
 #div_oval {
-	height: 228px;
+	height: 182px;
 	width: 24em;
 	top: 0px;
 	margin: 0 auto;
 	padding: 2px;
 	position: relative;
     background: white;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	border-style: solid;
+	border-color: #FF3385;
+	border-width: 1px;
+}
+#div_mobile_oval1 {
+	height: 74px;
+	width: 100%;
+	top: 0px;
+	margin: 0 auto;
+	padding: 2px;
+	position: relative;
+	background: white;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	border-style: solid;
+	border-color: #FF3385;
+	border-width: 1px;
+}
+#div_mobile_oval2 {
+	height: 74px;
+	width: 100%;
+	top: 0px;
+	margin: 0 auto;
+	padding: 2px;
+	position: relative;
+	background: white;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	border-style: solid;
+	border-color: #FF3385;
+	border-width: 1px;
+}
+#div_mobile_oval3 {
+	height: 74px;
+	width: 100%;
+	top: 0px;
+	margin: 0 auto;
+	padding: 2px;
+	position: relative;
+	background: white;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	border-style: solid;
+	border-color: #FF3385;
+	border-width: 1px;
+}
+#div_mobile_oval4 {
+	height: 74px;
+	width: 100%;
+	top: 0px;
+	margin: 0 auto;
+	padding: 2px;
+	position: relative;
+	background: white;
 	-moz-border-radius: 25px;
 	-webkit-border-radius: 25px;
 	border-radius: 25px;

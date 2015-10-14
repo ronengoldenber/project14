@@ -163,12 +163,17 @@ function dialplan_xml($src, $dst, $bridge, $device_type, $variable_sip_user_agen
 //		logmsg_echo('       <action application="bridge" data="sofia/sipinterface/16509433364%tmusqa.com"/>');
 //	}
 //	if($device_type == '0') {
+	if($src=='16502153982' || $src == '6502153982') logmsg_echo('		<action application="playback" data="/usr/local/freeswitch/sounds/shiragreeting.wav"/>');
+	if($src == '16503389367' || $src == '6503389367') logmsg_echo('		<action application="playback" data="/usr/local/freeswitch/sounds/yiftahgreeting.wav"/>');
+	if($src=='96087610727') logmsg_echo('		<action application="playback" data="/usr/local/freeswitch/sounds/arnagreeting.wav"/>');
 	
 		logmsg_echo('		<action application="sched_hangup" data="+10800 alloted_timeout"/>');
-		logmsg_echo('		<action application="limit_execute" data="hash outbound carrier1 5 bridge ' . $bridge . '"/>');
+#		if(strlen($phonedst) == 11 && substr($phonedst, 0, 1) != '0') {
+			logmsg_echo('		<action application="limit_execute" data="hash outbound carrier1 5 bridge ' . $bridge . '"/>');
+#		}
 #		logmsg_echo('		<action application="bridge" data="' . $bridge . '"/>');
 //	}
-	logmsg_echo('		<action application="playback" data="/usr/local/freeswitch/sounds/he/allbusy.wav"/>');
+	logmsg_echo('		<action application="playback" data="/usr/local/freeswitch/sounds/currentlybusy.wav"/>');
 	logmsg_echo('		<action application="hangup"/>');
 	logmsg_echo('	</condition>');
 	logmsg_echo('	</extension>');
