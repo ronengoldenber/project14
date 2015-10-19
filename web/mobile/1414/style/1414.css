@@ -160,11 +160,15 @@ header {
 	overflow-x: hidden;
 }
 .home {
-	background: url(http://1414intl.com/1414/images/webgirls.jpg) no-repeat top center fixed;
+	background: url(http://mobile.1414intl.com/1414/images/webgirls.jpg) no-repeat top center fixed;
 	text-align:center;
 }
 .homemobile {
-	background: url(http://1414intl.com/1414/images/mobilegirls.jpg) no-repeat top center fixed;
+	background: url(http://mobile.1414intl.com/1414/images/mobilegirls.jpg) no-repeat top center fixed;
+	text-align:center;
+}
+.loginmobile{
+	background: url(http://mobile.1414intl.com/1414/images/loginmobile.jpg) no-repeat top center fixed;
 	text-align:center;
 }
 .overview {
@@ -223,6 +227,23 @@ pre.single {
 	min-height:120px;
 	padding:20px 0;
 }
+.outermobile {
+	display: table;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+.middlemobile {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.innermobile {
+	margin-left: auto;
+	margin-right: auto; 
+	width: 420px;
+}
 #carbonads {
 	width:330px;
 	margin:0px auto;
@@ -259,7 +280,7 @@ pre.single {
 }
 @media (max-width:600px) {
 	
-	.homemobile .home .inner {
+	.loginmobile .homemobile .home .inner {
 		padding-bottom:80px;
 	}
 }
@@ -340,7 +361,7 @@ hr {
 	border-width: 1px;
 }
 input[type="text"] {
-	border: 2px solid #FF3385;
+	border: 1px solid #FF3385;
 	-webkit-box-shadow:
 	inset 0 0 2px  rgba(0,0,0,0.1),
 	0 0 4px rgba(0,0,0,0.1);
@@ -350,14 +371,14 @@ input[type="text"] {
 	box-shadow:
 	inset 0 0 2px rgba(0,0,0,0.1),
 	0 0 4px rgba(0,0,0,0.1);
-	padding: 4px;
+	padding: 10px;
 	background: white;
 	margin: 0 0 0 0;
 	text-align: left;
-	font-size:20px;
+	font-size:14px;
 }
 input[type="password"] {
-	border: 2px solid #FF3385;
+	border: 1px solid #FF3385;
 	-webkit-box-shadow:
 	inset 0 0 4px  rgba(0,0,0,0.1),
 	0 0 8px rgba(0,0,0,0.1);
@@ -367,11 +388,11 @@ input[type="password"] {
 	box-shadow:
 	inset 0 0 4px rgba(0,0,0,0.1),
 	0 0 8px rgba(0,0,0,0.1);
-	padding: 4px;
+	padding: 10px;
 	background: white;
 	margin: 0 0 0 0;
 	text-align: left;
-	font-size:20px;
+	font-size:14px;
 }
 input[type="tel"] {
 	border: 4px solid gray;
@@ -391,21 +412,21 @@ input[type="tel"] {
 	font-size:20px;
 }
 #login {
-	position:relative;
-	width:520px;
-	height:500px;
-	margin-left:0px;
-	border: 1px solid #FF3385;
+	position: absolute;
+	width:100%;
+	height:100%;
+	margin:0px;
+	border: 0px solid #FF3385;
 	background-color: #FBFBFB;
 	opacity: 0.97;
 	filter: alpha(opacity=97);
 }
 #join {
-	position:relative;
-	width:520px;
-	height:480px;
+	position:absolute;
+	width:100%;
+	height:100%;
 	margin-left:0px;
-	border: 1px solid #FF3385;
+	border: 0px solid #FF3385;
 	background-color: #FBFBFB;
 	opacity: 0.97;
 	filter: alpha(opacity=97);
@@ -478,6 +499,14 @@ input[type="tel"] {
 	padding: 2px;
 	position: relative;
 }
+#subdivbottomborder {
+	border-bottom: 1px solid #FF3385;
+	background-color: #E6E6E6;
+	width:100%;
+	margin: 0 auto;
+	padding: 4px;
+	position: relative;
+}
 #subdivlname {
 	margin: 0 auto;
 	padding: 2px;
@@ -528,16 +557,16 @@ input[type="tel"] {
 	border-color: black;
 }
 #html_login {
-	background: url(http://1414intl.com/1414/images/login.jpg) no-repeat top center fixed;
+	background: url(http://mobile.1414intl.com/1414/images/loginmobile.jpg) no-repeat top center fixed;
 }
 #html_join {
-	background: url(http://1414intl.com/1414/images/login.jpg) no-repeat top center fixed;
+	background: url(http://mobile.1414intl.com/1414/images/loginmobile.jpg) no-repeat top center fixed;
 }
 #html_authorize {
-	background: url(http://1414intl.com/1414/images/login.jpg) no-repeat top center fixed;
+	background: url(http://mobile.1414intl.com/1414/images/loginmobile.jpg) no-repeat top center fixed;
 }
 #div_main {
-	background: url(http://1414intl.com/1414/images/phone_booth.jpg) no-repeat top center fixed;
+	background: url(http://mobile.1414intl.com/1414/images/phone_booth.jpg) no-repeat top center fixed;
 	-webkit-background-size: 100%;
 	-moz-background-size: 100%;
 	-o-background-size: 100%;
@@ -545,7 +574,7 @@ input[type="tel"] {
 	min-height: 100%;
 }
 #div_main_mobile {
-	background: url(http://1414intl.com/1414/images/mobilegirls.jpg) no-repeat top center fixed;
+	background: url(http://mobile.1414intl.com/1414/images/mobilegirls.jpg) no-repeat top center fixed;
 	-webkit-background-size: 100%;
 	-moz-background-size: 100%;
 	-o-background-size: 100%;

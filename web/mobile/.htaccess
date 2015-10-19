@@ -1,0 +1,9 @@
+RewriteEngine On
+#RewriteRule ^mobile$ 1414/mindex.php
+RewriteRule ^login$ 1414/login.php
+RewriteRule ^join$ 1414/join.php
+RewriteRule ^authorize$ 1414/authorize.php
+RewriteRule ^startup$ 1414/startup.php
+RewriteRule ^verify/[0-9a-zA-Z]{32,80}$ 1414/verify.php
+RewriteRule ^privacy$ 1414/pp.php
+RewriteRule ^terms$ 1414/tos.php

@@ -47,10 +47,10 @@ function js_check_lname($form) {
 	return true;
 }
 function html_field($title, $title_font_size, $field, $input) {
-	echo '<div id="subdiv"><font size=' . $title_font_size . ' color=black>' . $title . '</font></div>' . PHP_EOL;
-	echo '<div id="subdiv"><input id="' . $field . '" name="' . $field . '"' ;
+	echo '<div id="subdiv" align="left"><font size=' . $title_font_size . ' color=black>' . $title . '</font></div>' . PHP_EOL;
+	echo '<div id="subdiv" align="left"><input id="' . $field . '" name="' . $field . '"' ;
 	echo ' onchange="check_' . $field . '();" onkeyup="check_' . $field . '();"';
-	echo ' onpaste="check_' . $field . '();" oninput="check_' . $field . '();" onchange="check_' . $field . '();" maxlength=40 size=25 type=' . $input . '></font></div>' . PHP_EOL;
+	echo ' onpaste="check_' . $field . '();" oninput="check_' . $field . '();" onchange="check_' . $field . '();" maxlength=40 size=40 type=' . $input . '></font></div>' . PHP_EOL;
 	echo '<div id="subdiv' . $field . '"><font size=2>&nbsp;</font></div>' . PHP_EOL;
 	return true;
 }
@@ -119,7 +119,7 @@ function js_validate($form) {
 	echo '}' . PHP_EOL;
 }
 function html_tos_pp() {
-	echo '<div id="subdiv"><font size=2 color=black> By clicking Join now, you agree to 1414\'s <a href=http://1414intl.com/terms>Terms and Conditions</a> and <a href=http://1414intl.com/privacy>Privacy Policy</a></font></div>' . PHP_EOL;
+	echo '<div id="subdiv"><font size=1 color=black> By clicking Join now, you agree to 1414\'s <a href=http://1414intl.com/terms>Terms and Conditions</a> and <a href=http://1414intl.com/privacy>Privacy Policy</a></font></div>' . PHP_EOL;
 	return true;
 }
 function screen_size() {

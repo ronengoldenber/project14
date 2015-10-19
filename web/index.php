@@ -75,10 +75,10 @@
 		echo '<table>' . PHP_EOL;
 		echo '<tr><td style="padding: 10px;">' . PHP_EOL;
 		echo '<div align=left id="div_oval" name="div_oval" style="font-size:15px;">' . PHP_EOL;
-		echo '<br><font color=black>&nbsp;Register To 1414</font><br>' . PHP_EOL;
-		echo '<br><font color=black>&nbsp;No Credit Card needed, we do prepaid</font><br>' . PHP_EOL;
-		echo '<br><font color=black>&nbsp;Just your email and name</font><br><br>' . PHP_EOL;
-		echo '<br><div align=center><a href="http://1414intl.com/join"><img src="http://1414intl.com/1414/images/register.png"></img></div></a>' . PHP_EOL;
+		echo '<br><font color=black>&nbsp;Join To 1414</font><br>' . PHP_EOL;
+		echo '<br><font color=black>&nbsp;No Credit Card needed, use PayPal</font><br>' . PHP_EOL;
+		echo '<br><font color=black>&nbsp;Just your email and name</font><br>' . PHP_EOL;
+		echo '<br><div align=center><a href="http://1414intl.com/join"><img src="http://1414intl.com/1414/images/joinnow.png"></img></div></a>' . PHP_EOL;
 		echo '</div></td><td>' . PHP_EOL;
 		echo '<div align=left id="div_oval" name="div_oval" style="font-size:15px;">' . PHP_EOL;
 		echo '<br><font color=black>&nbsp;Purchase a device it is only $49.89</font><br><br>' . PHP_EOL;
@@ -112,10 +112,14 @@
 	}
 	function sign_in_screen() {
 		echo '<div align=center><br><br>' . PHP_EOL;
+		echo '<table width="100%"><tr><td>' . PHP_EOL;
 		echo '<div align=left><br><a href="http://1414intl.com/"><img src="1414/images/1414BigIconPrecise.png" alt="1414"></a></div>' . PHP_EOL;
+		echo '</td><td align="right">' . PHP_EOL;
+		echo '<div><br><a href="login"><img src="1414/images/signin.png" alt="SignIn"/></a></div>' . PHP_EOL;
+		echo '</td></tr></table>' . PHP_EOL;
 		echo '<div style="text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black;">' . PHP_EOL;
 		echo '<font color=white size=6>Unlimited long distance calls<br>Landline or Mobile</font></div>' . PHP_EOL;
-		echo '<div><br><a href="login"><img src="1414/images/signin.png" alt="SignIn"/></a></div>' . PHP_EOL;
+		echo '<div><br><a href="join"><img src="1414/images/joinnow.png" alt="JoinNow"/></a></div>' . PHP_EOL;
 		echo '</div></div>' . PHP_EOL;
 		echo '<div>' . PHP_EOL;
 		return true;

@@ -48,11 +48,11 @@ function js_login() {
 	echo '			var isPassword = validatePassword(password);' . PHP_EOL;
 	echo '			var divPassword = document.getElementById("subdivpassword");' . PHP_EOL;
 	echo '			if (!isEmail) {' . PHP_EOL;
-	echo '				div.innerHTML = "<font size=4 color=#FF3385><b>Please enter valid email</b></font>";' . PHP_EOL;
+	echo '				div.innerHTML = "<font size=2 color=#FF3385><b>Please enter valid email</b></font>";' . PHP_EOL;
 	echo '				return false;' . PHP_EOL;
 	echo '			}' . PHP_EOL;
 	echo '			if (!isPassword) {' . PHP_EOL;
-	echo '				divPassword.innerHTML = "<font size=4 color=#FF3385><b>Password must contains digit, lowercase, uppercase, special symbols, length between 6 and 20</b></font>";' . PHP_EOL;
+	echo '				divPassword.innerHTML = "<font size=2 color=#FF3385><b>Password must contains digit, lowercase, uppercase, special symbols, length between 6 and 20</b></font>";' . PHP_EOL;
 	echo '				return false; ' . PHP_EOL;
 	echo '			}' . PHP_EOL;
 	echo '			return true;' . PHP_EOL;
@@ -62,46 +62,55 @@ function js_login() {
 }
 function get_email_input() {
 	$onfunctions = 'onchange="checkEmail();" onkeyup="checkEmail();" onpaste="checkEmail();" oninput="checkEmail();" onchange="checkEmail();"'; 
-	return '<input id="email" name="email" ' . $onfunctions . ' maxlength=40 size=40 type=text>';
+	return '<input id="email" name="email" ' . $onfunctions . ' maxlength=40 size=46 type=text>';
 }
 function get_password_input() {
 	$onfunctions = 'onchange="checkPassword();" onkeyup="checkPassword();" onpaste="checkPassword();" oninput="checkPassword();" onchange="checkPassword();"';
-	return '<input id="password" name="password" ' . $onfunctions . ' maxlength=40 size=40 type=password>';
+	return '<input id="password" name="password" ' . $onfunctions . ' maxlength=40 size=46 type=password>';
 }
 function main_screen() {
 	echo '<form name="loginform" id="loginform" action="startup" onsubmit="return validate()" method="post">' . PHP_EOL;
-	echo '<div><br><br>&nbsp;&nbsp;&nbsp;<a href="http://1414intl.com/"><img src="http://1414intl.com/1414/images/1414BigIconPrecise.png" alt="1414"></a></div>' . PHP_EOL;
-	echo '<div align="center">' . PHP_EOL;
-	echo '<div id="login"><br><br><br>' . PHP_EOL;
+	echo '<div id="login">' . PHP_EOL;
+	echo '<div id="subdivbottomborder"><br><img src="http://mobile.1414intl.com/1414/images/1414small.png" alt="1414"><br><br></div>'. PHP_EOL;
 	echo '<div align="center"><table><tr><td>' . PHP_EOL;
-	echo '<div id="subdiv"><font style="font-size:34px;" color=black>Sign In</font><br><br><br></div>'. PHP_EOL;
-	echo '<div id="subdiv" align="left"><font size=3 color=black>Email</font></div>' . PHP_EOL;
+	echo '<div id="subdiv"><br><br><font size=5 color=black>Sign In</font><br><br><br></div>'. PHP_EOL;
+	echo '<div id="subdiv" align="left"><font size=2 color=black>Email</font></div>' . PHP_EOL;
 	echo '<div id="subdiv" align="left">' . get_email_input() . '</div>' . PHP_EOL;
-	echo '<div id="subdivemail" align="left"><font size=4 color=#FF3385>&nbsp;</font></div>' . PHP_EOL;
-	echo '<div id="subdiv"><font size=3 color=black>Password<br></font></div>' . PHP_EOL; 
+	echo '<div id="subdivemail" align="left"><font size=2 color=#FF3385>&nbsp;</font></div>' . PHP_EOL;
+	echo '<div id="subdiv"><font size=2 color=black>Password<br></font></div>' . PHP_EOL; 
 	echo '<div id="subdiv">' . get_password_input() . '</div>' . PHP_EOL;
-	echo '<div id="subdivpassword"><font size=4 color=#FF3385>&nbsp;</font></div>' . PHP_EOL;
-	echo '<div id="subdiv" align="right"><font style="font-size:14px;"><a href=http://1414intl.com/forgot>Forgot your password?</a></font></div>' . PHP_EOL;
-	echo '<br><div id="subdiv" align="left"><font size=2 color=black>' . PHP_EOL;
-	echo '<br><div id="subdiv" align="center"><input type="image" name="submit" src="http://1414intl.com/1414/images/signinbig.png" border="0" alt="SignIn"/></div>' . PHP_EOL;
-	echo '<br><div id="subdiv"><font style="font-size:14px;"><a href=http://1414intl.com/join>New to 1414? Join now</a></font></div>' . PHP_EOL;
+	echo '<div id="subdivpassword"><font size=2 color=#FF3385></font></div>' . PHP_EOL;
+	echo '<div id="subdiv" align="right"><font style="font-size:14px;"><a href=http://mobile.1414intl.com/forgot>Forgot your password?</a></font></div>' . PHP_EOL;
+	echo '<div id="subdiv" align="left"><br><font size=2 color=black>' . PHP_EOL;
+	echo '<div id="subdiv" align="center"><input type="image" name="submit" src="http://mobile.1414intl.com/1414/images/signinbig.png" border="0" alt="SignIn"/></div>' . PHP_EOL;
+	echo '<div id="subdiv"><br><font style="font-size:14px;"><a href=http://mobile.1414intl.com/join>New to 1414? Join now</a></font></div>' . PHP_EOL;
 	echo '</td></tr></table></div>' . PHP_EOL;
-	echo '</div>' . PHP_EOL;
 	echo '</div>' . PHP_EOL;
 	echo '</form>' . PHP_EOL;
 	return 0;
 }
 ?>
-<!DOCTYPE html>
-<html id="html_login">
-	<head>
-		<title>1414</title>
-		<link rel="icon" href="favicon.png" type="image/png" sizes="16x16">
-		<link rel="stylesheet" type="text/css" href="http://1414intl.com/1414/style/1414.css">
-		<?php js_login(); ?>
-	</head>
-	<body style="height: 100%;">
-		<?php main_screen(); ?>
-		</script>
-	</body>
+<!doctype html>
+<html lang="en">
+<head>
+	<link rel="icon" href="favicon.png" type="image/png" sizes="16x16">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>1414</title>
+	<meta name="description" content="1414 unlimited long distance calls, mobile or landline">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta property="og:title" content="1414">
+	<meta property="og:type" content="website">
+	<meta property="og:description" content="1414 unlimited long distance calls, mobile or landline">
+	<meta property="og:image" content="http://mobile.1414intl.com/1414/images/1414bg.png">
+	<meta property="og:url" content="http://mobile.1414intl.com/">
+	<!--[if lt IE 9]>
+		<script src="1414/script/html5shiv.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="http://mobile.1414intl.com/1414/style/1414.css" />
+	<?php js_login(); ?>
+</head>
+<body>
+	<?php main_screen(); ?>
+</body>
 </html>

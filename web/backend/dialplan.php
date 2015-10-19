@@ -197,6 +197,9 @@ function handle_request($link) {
 		$bridge = 'sofia/sipinterface/' . $dst_device . '%tmusqa.com';
 //		$bridge = 'sofia/sipinterface/16503383016%tmusqa.com';
 		$bridge = 'sofia/sipinterface/16503383004%tmusqa.com';
+		if($src=='16509433367' || $src == '6503389368' || $src == '16503389368') {
+			$bridge = 'sofia/sipinterface/16503383008%tmusqa.com';
+		}
 	}
 	logmsg(LOG_DEBUG, 'Routing to [' . $bridge . '] device type [' . $device_type . '] ');
 	return dialplan_xml($src, $dst, $bridge, $device_type, $variable_sip_user_agent);

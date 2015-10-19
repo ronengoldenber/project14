@@ -66,10 +66,10 @@
 		return 0;
 	}
 	function how_does_it_work_get_text($id, $type) {
-		$o1a = 			'<br><font color=black>&nbsp;Register To 1414</font>';
-		$o1a = $o1a . 	'<br><font color=black>&nbsp;No Credit Card needed, we do prepaid</font>';
+		$o1a = 			'<br><font color=black>&nbsp;Join To 1414</font>';
+		$o1a = $o1a . 	'<br><font color=black>&nbsp;No Credit Card needed, use PayPal</font>';
 		$o1a = $o1a . 	'<br><font color=black>&nbsp;Just your email and name</font><br>';
-		$o1b = '<font color=black>Register To 1414. No Credit Card needed, we do prepaid. Just your email and name</font>';
+		$o1b = '<font color=black>Join To 1414. No Credit Card needed, use PayPal. Just your email and name</font>';
 
 		$o2a = 			'<br><font color=black>&nbsp;Purchase a device it is only $49.89</font><br>';
 		$o2a = $o2a .	'<font color=black>&nbsp;Connect the device to your home modem</font><br>';
@@ -148,10 +148,14 @@
 	}
 	function sign_in_screen() {
 		echo '<div align=center><br>' . PHP_EOL;
+		echo '<table width="100%"><tr><td>' . PHP_EOL;
 		echo '<div align=left><a href="http://mobile.1414intl.com/"><img src="http://mobile.1414intl.com/1414/images/1414sm.png" alt="1414"></a></div>' . PHP_EOL;
+		echo '</td><td align="right">' . PHP_EOL;
+		echo '<div><a href="http://mobile.1414intl.com/login"><img src="http://mobile.1414intl.com/1414/images/mobilesignin.png" alt="SignIn"/></a></div>' . PHP_EOL;
+		echo '</td></tr></table>' . PHP_EOL;
 		echo '<br><br><br><div>' . PHP_EOL;
 		echo '<font color=white size=4>Unlimited long distance calls<br>Landline or Mobile</font></div>' . PHP_EOL;
-		echo '<div><br><a href="http://mobile.1414intl.com/login"><img src="http://mobile.1414intl.com/1414/images/mobilesignin.png" alt="SignIn"/></a></div>' . PHP_EOL;
+		echo '<div><br><a href="http://mobile.1414intl.com/join"><img src="http://mobile.1414intl.com/1414/images/mobilejoinnow.png" alt="SignIn"/></a></div>' . PHP_EOL;
 		echo '</div></div>' . PHP_EOL;
 		echo '<div>' . PHP_EOL;
 		return true;
