@@ -20,6 +20,16 @@ function add_user($link, $fname, $lname, $email, $username, $type) {
 	exit_stmt($stmt);
 	return true;
 }
+function create_cdr($cdr_link, $caller_id_name, $caller_id_number, $destination_number, $context, 
+					$start_stamp, $answer_stamp, $end_stamp, $duration, $billsec, $hangup_cause, $uuid, $bleg_uuid, $accountcode, $domain_name) {
+	$params = 'caller_id_name, caller_id_number, destination_number, context, start_stamp, answer_stamp, end_stamp, duration, billsec, hangup_cause,uuid,bleg_uuid, accountcode, domain_name';
+	$vars = array(	$caller_id_name, $caller_id_number, $destination_number, $context, $start_stamp, $answer_stamp, $end_stamp,
+					$duration, $billsec, $hangup_cause, $uuid, $bleg_uuid, $accountcode, $domain_name);
+	if(($stmt = sql_query($cdr_link, 'INSERT INTO cdr (' . $params . ') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', 'ssssssssssssss', $vars))) { 
+		exit_stmt($stmt);
+	}
+	return true;
+}
 function get_user_id_by_email($link, $email) {
 	$user_id = '';
 	if(($stmt = sql_query($link, 'SELECT user_id FROM config_user WHERE email = ?', 's', array($email)))) {
@@ -27,6 +37,38 @@ function get_user_id_by_email($link, $email) {
 		exit_stmt($stmt);
 	}
 	return $user_id;
+}
+function to_e164us($number) {
+	if(substr($number, 0, 1) == '+') {
+		$number = substr($number, 1);
+	}
+	if(strlen($number) != 10 && strlen($number) != 11) {
+		logmsg(LOG_WARNING, 'This is not E.164 US number');
+		return 0;
+	}
+	if(substr($number, 0, 1) == '1' && strlen($number) == 11) {
+		return $number;
+	}
+	return '1' . $number;
+}
+function is_number_allowed($link, $user_id, $src) {
+	logmsg(LOG_WARNING, 'Checking if the number [' . $src . '] is allowed ');
+	if(!isset($src) || $src == '') {
+		logmsg(LOG_WARNING, 'The source [' . $src . '] is empty ');
+		return false;
+	}
+	$src_e164 = to_e164us($src);
+	$response_user_id = '';
+	if(($stmt = sql_query($link, 'SELECT user_id FROM `config_number` WHERE `number` = ?', 's', array($src_e164)))) {
+		mysqli_stmt_bind_result($stmt, $response_user_id);
+		exit_stmt($stmt);
+	}
+	if(!isset($response_user_id) || strlen($response_user_id) < 1 || $response_user_id < 1)  {
+		logmsg(LOG_WARNING, 'Cannot find source number [' . $src_e164 . '] not a 1414 customer ');
+		return false;
+	}
+	logmsg(LOG_WARNING, 'The number is allowed [' . $response_user_id . '] ');
+	return true;
 }
 function get_user_type_by_email($link, $email) {
 	$type = '';

@@ -17,10 +17,9 @@
 		echo '</td><td align="left">' . PHP_EOL;
 		echo '</div></td></tr></table>' . PHP_EOL;
 	}
-	function verify_user($email) {
-		echo '<form action="http://1414intl.com/startup" method="post">' . PHP_EOL;
+	function verify_user($email, $url) {
+		echo '<form action="http://mobile.1414intl.com/login" method="post">' . PHP_EOL;
 		echo '<input type="hidden" name="email" value="' . $email . '"/>' . PHP_EOL;
-		echo '<input type="hidden" name="ha1" value="' . $ha1 . '"/>' . PHP_EOL;
 		echo '<input type="hidden" name="url" value="' . $url . '"/>' . PHP_EOL;
 		echo '<div id="bardiv"> ' . PHP_EOL;
 		echo '<table width="100%" cellpadding="10"><tr><td>' . PHP_EOL;
@@ -57,7 +56,7 @@
 			error_screen($is_verify_user);
 			return;
 		}
-		verify_user($is_verify_user);
+		verify_user($is_verify_user, $url);
 	}
 	function main_startup_screen() {
 		$link = db_connect();

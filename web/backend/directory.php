@@ -66,10 +66,13 @@ function directory_username($directory_info)
 	logmsg_echo("				<params>");
 	logmsg_echo("					<param name=\"a1-hash\" value=\"" . $directory_info['ha1'] . "\"/>");
 	logmsg_echo("					<param name=\"mwi-account\" value=\"" . $directory_info['user'] . "@" . $directory_info['domain'] . "\"/>");
-	for($i = 0; $i < $directory_info['count'] && $i < MULTI_REGISTRATION_MAX_SIZE; $i++)
-	{
-		logmsg_echo("					<param name=\"backend_contact" . $i . "\" value=\"" . $directory_info['contacts'][$i] . "\"/>");
-		logmsg_echo("					<param name=\"backend_expires" . $i . "\" value=\"" . $directory_info['expires_arr'][$i] . "\"/>");
+	for($i = 0; $i < $directory_info['count'] && $i < MULTI_REGISTRATION_MAX_SIZE; $i++) {
+		if(isset($directory_info['contacts'][$i])) {
+			logmsg_echo("					<param name=\"backend_contact" . $i . "\" value=\"" . $directory_info['contacts'][$i] . "\"/>");
+		}
+		if(isset($directory_info['expires_arr'][$i])) {
+			logmsg_echo("					<param name=\"backend_expires" . $i . "\" value=\"" . $directory_info['expires_arr'][$i] . "\"/>");
+		}
 	}
 	logmsg_echo("				</params>");
 	logmsg_echo("			</user>");

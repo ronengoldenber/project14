@@ -1,5 +1,8 @@
 <?php
 include 'global.php';
+function contour($color) {
+	return 'text-shadow: -1px 0 ' . $color . ', 0 1px ' . $color . ', 1px 0 ' . $color . ', 0 -1px ' . $color . ';';
+}
 function js_validate_fname() {
 	echo 'function validate_fname(fname) {' . PHP_EOL;
 	echo '	var re = /^[a-zA-Z]{2,15}$/i;' . PHP_EOL;
@@ -53,6 +56,33 @@ function html_field($title, $title_font_size, $field, $input, $nbsp) {
 	echo ' onpaste="check_' . $field . '();" oninput="check_' . $field . '();" onchange="check_' . $field . '();" maxlength=40 size=40 type=' . $input . '></font></div>' . PHP_EOL;
 	echo '<div id="subdiv' . $field . '"><font size=2>' . $nbsp . '</font></div>' . PHP_EOL;
 	return true;
+}
+function isUnauthorizedUser($link, $email, $url) {
+	$query = 'SELECT `fname`, `lname`, `email`, `ha1` FROM `state_unauthorized_user` WHERE `url` = ? ';
+	if (!($stmt = sql_query($link, $query, 's', array($url)))) {
+		return 'Could not get url [' . $url . '] status ';
+	}
+	mysqli_stmt_bind_result($stmt, $row['fname'], $row['lname'], $row['email'], $row['ha1']);
+	exit_stmt($stmt);
+	$fname = isset($row['fname']) ? $row['fname'] : '';
+	$lname = isset($row['lname']) ? $row['lname'] : '';
+	$email = isset($row['email']) ? $row['email'] : '';
+	$ha1 = isset($row['ha1']) ? $row['ha1'] : '';
+	if($fname == '' || $lname == '' || $email == '' || $ha1 == '' ) {
+		$response = 'Could not find [fname=' . $fname . '(' . strlen($fnamelen) . ')][lname=' . $lname . '][email=' . $email . '][ha1=' . $ha1 . '] ';
+		exit_stmt($stmt);
+		return $response;
+	}
+	$query = 'INSERT INTO `config_user` (`tenant_id`, `fname`, `lname`, `email`, `language`, `type`, `ha1`) VALUES (?, ?, ?, ?, ?, ?, ?) ';
+	if(!($stmt = sql_query($link, $query, 'sssssss', array('240000001', $fname, $lname, $email, '1', '0', $ha1)))) {
+		exit_stmt($stmt);
+		return 'Could not add user [' . $email . '] ';
+	}
+	exit_stmt($stmt);
+	$query = 'DELETE FROM `state_unauthorized_user` WHERE `url` = ? ';
+	$stmt = sql_query($link, $query, 's', array($url));
+	exit_stmt($stmt);
+	return 'OK';
 }
 function js_validate_email() {
 	echo 'function validate_email(email) {' . PHP_EOL;

@@ -63,6 +63,13 @@ function db_connect() {
 	}
 	return $link;
 }
+function cdr_db_connect() {
+	if(!($cdr_link = mysqli_connect(DB_IP, DB_USER, DB_PASS, CDR_DB_NAME))) {
+		logmsg (LOG_CRIT, 'Could not connect to DB [' . mysqli_connect_error() . '(' . mysqli_connect_errno() . ')');
+		return 0;
+	}
+	return $cdr_link;
+}
 function sql_query($link, $query, $types = NULL, $values = NULL) {
 	if (!$link) {
 		logmsg (LOG_WARNING, 'Invalid DB handle ');

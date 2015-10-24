@@ -1,5 +1,5 @@
 <?php
-include_once 'global.php';
+include '1414.php';
 function js_login() {
 	echo '	<script>' . PHP_EOL;
 	echo '		function validateEmail(email) {' . PHP_EOL;
@@ -68,7 +68,7 @@ function get_password_input() {
 	$onfunctions = 'onchange="checkPassword();" onkeyup="checkPassword();" onpaste="checkPassword();" oninput="checkPassword();" onchange="checkPassword();"';
 	return '<input id="password" name="password" ' . $onfunctions . ' maxlength=40 size=46 type=password>';
 }
-function main_screen() {
+function main_login_screen() {
 	echo '<form name="loginform" id="loginform" action="startup" onsubmit="return validate()" method="post">' . PHP_EOL;
 	echo '<div id="login">' . PHP_EOL;
 	echo '<div id="subdivbottomborder"><br><img src="http://mobile.1414intl.com/1414/images/1414small.png" alt="1414"><br><br></div>'. PHP_EOL;
@@ -88,6 +88,40 @@ function main_screen() {
 	echo '</div>' . PHP_EOL;
 	echo '</form>' . PHP_EOL;
 	return 0;
+}
+function error_screen($error) {
+	echo '<div id="bardiv"><br><br> ' . PHP_EOL;
+	echo '<table width="100%" cellpadding="10"><tr><td>' . PHP_EOL;
+	echo '<div><a href="http://1414intl.com/"><img src="http://mobile.1414intl.com/1414/images/1414small.png" alt="1414"></a></div></td><td align="right">' . PHP_EOL;
+	echo '<div><font size=2 color=black>' . $_POST['email'] . '</font></div></td></tr></table>' . PHP_EOL;
+	echo '<br><br></div><br><br>' . PHP_EOL;
+	echo '<table width="100%" cellpadding="10"><tr><td align="center">' . PHP_EOL;
+	echo '<div id="queuetitlediv" align="left"><font color=white style="' . contour('black') . '" size=4><table cellpadding=5><tr><td>Error</td</tr></table></font></div>' . PHP_EOL;
+	echo '<div id="queuediv"><br>' . PHP_EOL;
+	echo '<div id="subdiv" align=center><font color=black size=2><br>' . $error . '<br><br></font>' . PHP_EOL;
+	echo '</div>' . PHP_EOL;
+	echo '</td><td align="left">' . PHP_EOL;
+	echo '</div></td></tr></table>' . PHP_EOL;
+}
+function choose_main_screen($link, $email, $password) {
+	if($email != '' && $password != '') {
+		$isUnauthorizedUser = isUnauthorizedUser($link, $email, $password);
+		if ($isUnauthorizedUser != 'OK') {
+			error_screen($isUnauthorizedUser);
+			return;
+		}
+	}
+	main_login_screen();
+	return;
+}
+function main_screen() {
+	$link = db_connect();
+	$email = isset($_POST['email']) ? $_POST['email'] : '';
+	$url = isset($_POST['url']) ? $_POST['url'] : '';
+	choose_main_screen($link, $email, $url);
+	if($link) {
+		mysqli_close($link);
+	}
 }
 ?>
 <!doctype html>

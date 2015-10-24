@@ -20,6 +20,63 @@ function add_user($link, $fname, $lname, $email, $username, $type) {
 	exit_stmt($stmt);
 	return true;
 }
+function get_usernames_by_email($link, $email) {
+	$query = 'SELECT d.`username` FROM `config_device` d JOIN `config_user` s ON s.`user_id` = d.`user_id` WHERE s.`email` = ? ';
+	logmsg(LOG_DEBUG, 'Prepare query [' . $query . '] ' );
+	$stmt = mysqli_prepare($link, $query);
+	if (!$stmt) {
+		logmsg(LOG_WARNING, 'Cannot get latest cdrs there are no devices attached to this email ');
+		logmsg_echo('<tr><td colspan="7"><font size=2 color=black>Cannot get latest cdrs there are no numbers or devices attached to this email</font></td></tr>');
+		return false;
+	}
+	mysqli_stmt_bind_param($stmt, 's', $email);
+	if (!mysqli_stmt_execute($stmt)) {
+		logmsg(LOG_WARNING, 'Cannot get cdrs because there is a problem to fetch the data ');
+		logmsg_echo('<tr><td colspan="7"><font size=2 color=black>Cannot get cdrs because there is a problem to fetch the data</font></td></tr>');
+		return false;
+	}
+	$response = mysqli_stmt_bind_result($stmt, $username);
+	$usernames = '';
+	$i = 0;
+	while (mysqli_stmt_fetch($stmt)) {
+		if($i >= 1) $usernames = $usernames . ' OR ';
+		$usernames = $usernames . 'context = ' . $username;
+		$i++;
+	}
+	logmsg(LOG_INFO, 'This [' . $i . '] email [' . $email . '] has those usernames [' . $usernames . ']');
+	mysqli_stmt_close($stmt);
+	return $usernames;
+}
+function get_latest_cdrs($link, $email) {
+	$usernames = get_usernames_by_email($link, $email);
+	if($usernames == false) {
+		return false;
+	}
+	$query = 'SELECT `caller_id_number`, `destination_number`, `context`, `answer_stamp`, `end_stamp`, `duration` FROM cdr.cdr WHERE ' . $usernames . ' ORDER BY start_stamp DESC LIMIT 10;';
+	logmsg(LOG_INFO, 'The cdr query is [' . $query . '] ');
+	$stmt = mysqli_prepare($link, $query);
+	if(!$stmt) {
+		logmsg(LOG_WARNING, 'Cannot get latest cdrs there are no numbers or devices attached to this email ');
+		logmsg_echo('<tr><td colspan="7"><font size=2 color=black>Cannot get latest cdrs there are no numbers or devices attached to this email</font></td></tr>');
+		return false;
+	}
+	if (!mysqli_stmt_execute($stmt)) {
+		logmsg(LOG_WARNING, 'Cannot get cdrs because there is a problem to fetch the cdrs data ');
+		logmsg_echo('<tr><td colspan="7"><font size=2 color=black>Cannot get cdrs because there is a problem to fetch the cdrs data</font></td></tr>');
+		return false;
+	}
+	$response = mysqli_stmt_bind_result($stmt, $caller_id_number, $destination_number, $context, $answer_stamp, $end_stamp, $duration);
+	while (mysqli_stmt_fetch($stmt)) {
+		logmsg_echo('<tr><td style="padding: 4px; border: 1px solid black;"><font size=2 color=black>' . $caller_id_number . '</td>');
+		logmsg_echo('<td style="padding: 4px; border: 1px solid black;"><font size=2 color=black>' . $destination_number . '</td>');
+		logmsg_echo('<td style="padding: 4px; border: 1px solid black;"><font size=2 color=black>' . $context . '</td>');
+		logmsg_echo('<td style="padding: 4px; border: 1px solid black;"><font size=2 color=black>' . $answer_stamp . '</td>');
+		logmsg_echo('<td style="padding: 4px; border: 1px solid black;"><font size=2 color=black>' . $end_stamp . '</td>');
+		logmsg_echo('<td style="padding: 4px; border: 1px solid black;"><font size=2 color=black>' . $duration . '</td></tr>');
+	}
+	mysqli_stmt_close($stmt);
+	return true;
+}
 function get_user_id_by_email($link, $email) {
 	$user_id = '';
 	if(($stmt = sql_query($link, 'SELECT user_id FROM config_user WHERE email = ?', 's', array($email)))) {

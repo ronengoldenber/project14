@@ -31,17 +31,19 @@ function logmsg ($severity, $message) {
 	$file 		=	(isset($arr[1]))	? $arr[1]['file']		: NULL;
 	$msg = severity_tostring($severity) . $function . '(' . $line . '):' . $message;
 	$msg = printable($msg);
-#	openlog(basename($file), LOG_PID | LOG_PERROR, LOG_LOCAL0);
-#	syslog($severity, $msg);
-#	closelog();
-#	echo "$msg";
+	if($severity == LOG_WARNING || $severity == LOG_ERR || $severity == LOG_CRIT) {
+		openlog(basename($file), LOG_PID | LOG_PERROR, LOG_LOCAL0);
+		syslog($severity, $msg);
+		closelog();
+		echo "$msg";
+	}
 	return true;
 }
 function logmsg_echo($message) {
 	$msg = (string)$message;
 	$message = printable($msg);
 	echo $message . "\n";
-	logmsg(LOG_INFO, $message);
+	logmsg(LOG_DEBUG, $message);
 	return true;
 }
 function lognmsg_echo($message) {
@@ -61,6 +63,13 @@ function db_connect() {
 		return 0;
 	}
 	return $link;
+}
+function cdr_db_connect() {
+	if(!($cdr_link = mysqli_connect(DB_IP, DB_USER, DB_PASS, CDR_DB_NAME))) {
+		logmsg (LOG_CRIT, 'Could not connect to DB [' . mysqli_connect_error() . '(' . mysqli_connect_errno() . ')');
+		return 0;
+	}
+	return $cdr_link;
 }
 function sql_query($link, $query, $types = NULL, $values = NULL) {
 	if (!$link) {
@@ -82,7 +91,7 @@ function sql_query($link, $query, $types = NULL, $values = NULL) {
 		}
 		call_user_func_array('mysqli_stmt_bind_param', $args);
 	}
-	logmsg(LOG_DEBUG, 'Query is [' . $query . '] types [' . $types . '] values [' . print_r($values, true) . '] ');
+	logmsg(LOG_INFO, 'Query is [' . $query . '] types [' . $types . '] values [' . print_r($values, true) . '] ');
 	for($i = 0; $i < 20; $i++) {
 		$response = 1;
 		if(!mysqli_stmt_execute($stmt)) {

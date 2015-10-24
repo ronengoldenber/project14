@@ -61,14 +61,21 @@ function dialplan_gvoicein($dst) {
 	section_footer();
 	return 0;
 }
-function dialplan_ipkall($dst) {
+function dialplan_ipkall($link, $src, $dst) {
 	logmsg_echo('<extension name="ipkall_in" continue="true">');
 	logmsg_echo('<condition>');
 	logmsg_echo('<action application="export" data="nolocal:jitterbuffer_msec=80"/>');
 	logmsg_echo('<action application="sched_hangup" data="+10800 alloted_timeout"/>');
 	logmsg_echo('<action application="flush_dtmf"/>');
+	$user_id = '';
 	logmsg_echo('<action application="answer"/>');
-	logmsg_echo('<action application="ivr" data="ivr_1414_' . $dst . '"/>');
+	$is_allowed = is_number_allowed($link, $user_id, $src);
+	if($is_allowed == true) {
+		logmsg_echo('<action application="ivr" data="ivr_1414_' . $dst . '"/>');
+	}
+	if($is_allowed == false) {
+		logmsg_echo('<action application="playback" data="/usr/local/freeswitch/sounds/1414notyetacustomer.wav"/>');
+	}
 	logmsg_echo('<action application="hangup"/>');
 	logmsg_echo('</condition>');
 	logmsg_echo('</extension>');
@@ -93,7 +100,7 @@ function dialplan_asr($src, $dst, $bridge, $device_type) {
 	section_footer();
 	return 0;
 }
-function dialplan_xml($src, $dst, $bridge, $device_type, $variable_sip_user_agent) {
+function dialplan_xml($link, $src, $dst, $bridge, $device_type, $variable_sip_user_agent) {
 	logmsg(LOG_DEBUG, 'Starting dialplan xml [src=' . $src .'][dst=' . $dst . ']');
 	section_header();
 	$context = 'context_default';
@@ -102,8 +109,8 @@ function dialplan_xml($src, $dst, $bridge, $device_type, $variable_sip_user_agen
 		dialplan_gvoicein($dst);
 		return 0;
 	}
-	if($dst=='14082078869' || $dst == '14082078868') {
-		dialplan_ipkall($dst);
+	if($dst=='4082078869' || $dst == '14082078868' || $dst=='4082078868' || $dst == '14082078869') {
+		dialplan_ipkall($link, $src, $dst);
 		return 0;
 	}
 	$phonedst = $dst;
@@ -166,7 +173,6 @@ function dialplan_xml($src, $dst, $bridge, $device_type, $variable_sip_user_agen
 	if($src=='16502153982' || $src == '6502153982') logmsg_echo('		<action application="playback" data="/usr/local/freeswitch/sounds/shiragreeting.wav"/>');
 	if($src == '16503389367' || $src == '6503389367') logmsg_echo('		<action application="playback" data="/usr/local/freeswitch/sounds/yiftahgreeting.wav"/>');
 	if($src=='96087610727') logmsg_echo('		<action application="playback" data="/usr/local/freeswitch/sounds/arnagreeting.wav"/>');
-	
 		logmsg_echo('		<action application="sched_hangup" data="+10800 alloted_timeout"/>');
 #		if(strlen($phonedst) == 11 && substr($phonedst, 0, 1) != '0') {
 			logmsg_echo('		<action application="limit_execute" data="hash outbound carrier1 5 bridge ' . $bridge . '"/>');
@@ -185,9 +191,26 @@ function match_bridge($link, $src) {
 	$dst_username =	get_match_username($link, $src);
 	return $dst_username;
 }
+function park_call() {
+	section_header();
+	$context = 'context_default';
+    logmsg_echo('<context name="' . $context . '">');
+	logmsg_echo('<extension name="park_call" continue="true">');
+	logmsg_echo('<condition>');
+	logmsg_echo('       <action application="bridge" data="sofia/sipinterface/16509433364%tmusqa.com"/>');
+	logmsg_echo('<action application="hangup"/>');
+	logmsg_echo('</condition>');
+	logmsg_echo('</extension>');
+	logmsg_echo('</context>');
+	section_footer();
+	return true;
+}
 function handle_request($link) {
 	$src = $_POST['Hunt-Caller-ID-Number'];
 	$dst = $_POST['Caller-Destination-Number'];
+	if($dst == '14082088862' || $dst=='4082088862') {
+		return park_call();
+	}
 	$variable_sip_user_agent = $_POST['variable_sip_user_agent'];
 	$device_type=get_device_type_by_username($link, $src);
 	$dst_device = match_bridge($link, $src);
@@ -202,7 +225,7 @@ function handle_request($link) {
 		}
 	}
 	logmsg(LOG_DEBUG, 'Routing to [' . $bridge . '] device type [' . $device_type . '] ');
-	return dialplan_xml($src, $dst, $bridge, $device_type, $variable_sip_user_agent);
+	return dialplan_xml($link, $src, $dst, $bridge, $device_type, $variable_sip_user_agent);
 }
 function main_dialplan() {
 	$link = db_connect();

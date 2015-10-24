@@ -1,5 +1,6 @@
 <?php
 	include 'global.php';
+	include 'utils/Mobile_Detect.php';
 	function contour($color) { 
 		return 'text-shadow: -1px 0 ' . $color . ', 0 1px ' . $color . ', 1px 0 ' . $color . ', 0 -1px ' . $color . ';';
 	}
@@ -60,11 +61,16 @@
 		verify_user($is_verify_user);
 	}
 	function main_startup_screen() {
-		$link = db_connect();
 		$url = $_SERVER['REQUEST_URI'];
 		logmsg(LOG_DEBUG, 'The url is [' . $url . '] ');
 		$actual_link = explode('/', $url);
 		$url = isset($actual_link[2]) ? $actual_link[2] : '';
+		$detect = new Mobile_Detect();
+		if ($detect->isMobile() && !$detect->isTablet()) {
+			header('Location: http://mobile.1414intl.com/verify/' . $url);
+			exit(0);
+		}
+		$link = db_connect();
 		choose_main_screen($link, $url);
 		if($link) {
 			mysqli_close($link);

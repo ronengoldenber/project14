@@ -29,36 +29,12 @@ function ivr_common() {
 	logmsg_echo('	exit-sound="' . EXIT1414 . '"');
 	logmsg_echo('	inter-digit-timeout="2000"');
 	logmsg_echo('	timeout="16000"');
-	logmsg_echo('	max-failures="1"');
-	logmsg_echo('	max-timeouts="1"');
-#	logmsg_echo('	tts-engine="flite"');
-#	logmsg_echo('	tts-voice="kal"');
+	logmsg_echo('	max-failures="2"');
+	logmsg_echo('	max-timeouts="2"');
 	logmsg_echo('	confirm-key="#">');
 	return true;
 }
-function ivr_common_dev() {
-	logmsg_echo('   greet-long="' . WELCOME1414 . '"');
-	logmsg_echo('   greet-short="' . EXIT1414 . '"');
-	logmsg_echo('   invalid-sound="' . EXIT1414 . '"');
-	logmsg_echo('   exit-sound="' . EXIT1414 . '"');
-	logmsg_echo('   inter-digit-timeout="2000"');
-	logmsg_echo('   timeout="16000"');
-	logmsg_echo('   max-failures="1"');
-	logmsg_echo('   max-timeouts="1"');
-	logmsg_echo('	tts-engine="cepstral"');
-	logmsg_echo('	tts-voice="david"');
-	logmsg_echo('	phrase_lang="en"');
-#	logmsg_echo('   tts-engine="flite"');
-#	logmsg_echo('   tts-voice="kal"');
-	logmsg_echo('   confirm-key="#">');
-	return true;
-}
-function ivr_xml_16503860217_dev($src, $dst) {
-	ivr_xml_header();
-	logmsg_echo('<menu');
-	logmsg_echo('   name="ivr_1414_' . $dst . '"');
-	logmsg_echo('   digit-len="11"');
-	ivr_common_dev();
+function get_il_dialplan() {
 	logmsg_echo('   <entry action="menu-exec-app" param="transfer *555 XML context_default" digits="/^[\*][5][5][5]$/"/>');
 	logmsg_echo('   <entry action="menu-exec-app" param="transfer *997 XML context_default" digits="/^[\*][9][9][7]$/"/>');
 	logmsg_echo('   <entry action="menu-exec-app" param="transfer 1700$1 XML context_default" digits="/^[1][7][0][0](\d{6})$/"/>');
@@ -118,46 +94,16 @@ function ivr_xml_16503860217_dev($src, $dst) {
 	logmsg_echo('   <entry action="menu-exec-app" param="transfer 077$1 XML context_default" digits="/^[0][0][7][6][8](\d{7})$/"/>');
 	logmsg_echo('   <entry action="menu-exec-app" param="transfer 08$1 XML context_default" digits="/^[0][0][8](\d{7})$/"/>');
 	logmsg_echo('   <entry action="menu-exec-app" param="transfer 09$1 XML context_default" digits="/^[0][0][9](\d{7})$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" digits="/^[0][5][0](\d{6})$/" param="playback phrase:saydigits:050$1"/>');
-	logmsg_echo('</menu>');
-	ivr_xml_footer();
+	logmsg_echo('	<entry action="menu-exec-app" digits="/^(\d+)$/" param="playback phrase:saydigits:$1"/>');
 	return true;
 }
 function ivr_xml_16503860217($src, $dst) {
-	if($src=='6503389367') {
-		return ivr_xml_16503860217_dev($src, $dst);
-	}
 	ivr_xml_header();
 	logmsg_echo('<menu');
 	logmsg_echo('	name="ivr_1414_' . $dst . '"');
 	logmsg_echo('	digit-len="11"');
 	ivr_common();
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer *555 XML context_default"  digits="/^[\*][5][5](\d+)$/"/>');
-    logmsg_echo('   <entry action="menu-exec-app" param="transfer 02$1 XML context_default"  digits="/^[2](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 03$1 XML context_default"  digits="/^[3](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 04$1 XML context_default"  digits="/^[4](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 05$1 XML context_default"  digits="/^[5](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 06$1 XML context_default"  digits="/^[6](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 07$1 XML context_default"  digits="/^[7](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 08$1 XML context_default"  digits="/^[8](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 09$1 XML context_default"  digits="/^[9](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 02$1 XML context_default"  digits="/^[0][2](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 03$1 XML context_default"  digits="/^[0][3](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 04$1 XML context_default"  digits="/^[0][4](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 05$1 XML context_default"  digits="/^[0][5](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 06$1 XML context_default"  digits="/^[0][6](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 07$1 XML context_default"  digits="/^[0][7](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 08$1 XML context_default"  digits="/^[0][8](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 09$1 XML context_default"  digits="/^[0][9](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 02$1 XML context_default"  digits="/^[0][0][2](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 03$1 XML context_default"  digits="/^[0][0][3](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 04$1 XML context_default"  digits="/^[0][0][4](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 05$1 XML context_default"  digits="/^[0][0][5](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 06$1 XML context_default"  digits="/^[0][0][6](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 07$1 XML context_default"  digits="/^[0][0][7](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 08$1 XML context_default"  digits="/^[0][0][8](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 09$1 XML context_default"  digits="/^[0][0][9](\d+)$/"/>');
-	logmsg_echo('   <entry action="menu-exec-app" param="transfer 18002220300 XML context_default"  digits="/^(8*)[0][0][2](\d+)$/"/>');
+	get_il_dialplan();
 	logmsg_echo('</menu>');
 	ivr_xml_footer();
 	return true;
@@ -168,32 +114,7 @@ function ivr_xml_16503537930($src, $dst) {
 	logmsg_echo('   name="ivr_1414_' . $dst . '"');
 	logmsg_echo('   digit-len="11"');
 	ivr_common();
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer *555 XML context_default"  digits="/^[\*][5][5](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 02$1 XML context_default"  digits="/^[2](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 03$1 XML context_default"  digits="/^[3](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 04$1 XML context_default"  digits="/^[4](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 05$1 XML context_default"  digits="/^[5](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 06$1 XML context_default"  digits="/^[6](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 07$1 XML context_default"  digits="/^[7](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 08$1 XML context_default"  digits="/^[8](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 09$1 XML context_default"  digits="/^[9](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 02$1 XML context_default"  digits="/^[0][2](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 03$1 XML context_default"  digits="/^[0][3](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 04$1 XML context_default"  digits="/^[0][4](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 05$1 XML context_default"  digits="/^[0][5](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 06$1 XML context_default"  digits="/^[0][6](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 07$1 XML context_default"  digits="/^[0][7](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 08$1 XML context_default"  digits="/^[0][8](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 09$1 XML context_default"  digits="/^[0][9](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 02$1 XML context_default"  digits="/^[0][0][2](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 03$1 XML context_default"  digits="/^[0][0][3](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 04$1 XML context_default"  digits="/^[0][0][4](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 05$1 XML context_default"  digits="/^[0][0][5](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 06$1 XML context_default"  digits="/^[0][0][6](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 07$1 XML context_default"  digits="/^[0][0][7](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 08$1 XML context_default"  digits="/^[0][0][8](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 09$1 XML context_default"  digits="/^[0][0][9](\d+)$/"/>');
-	logmsg_echo('	<entry action="menu-exec-app" param="transfer 18002220300 XML context_default"  digits="/^(8*)[0][0][2](\d+)$/"/>');
+	get_il_dialplan();
 	logmsg_echo('</menu>');
 	ivr_xml_footer();
 	return true;

@@ -55,7 +55,7 @@ function auth_device($link, $apikey, $username) {
 	$app_apikey = get_apikey($link, $username);
 	if($apikey != $app_apikey) {
 		echo 'Wrong API Key ';
-		logmsg(LOG_DEBUG, 'Wrong API key [' . $apikey . '!=' . $app_appikey . '] ');
+		logmsg(LOG_DEBUG, 'Wrong API key [' . $apikey . '!=' . $app_apikey . '] ');
 		return false;
 	}
 	return true;
@@ -64,7 +64,7 @@ function set_device_status($link) {
 	$apikey = printable($_GET['apikey']);
 	$username = printable($_GET['username']);
 	$status = printable(file_get_contents('php://input'));
-	$ip = printable($_GET['ip']);
+	$ip = (isset($_GET['ip'])) ? printable($_GET['ip']) : '';
 	$ip = ip2long($ip);
 	logmsg(LOG_DEBUG, 'Setting device status username [' . $username . '] status [' . $status . '] ip [' . $ip . '] ');
 	if(!auth_device($link, $apikey, $username)) {
@@ -119,7 +119,7 @@ function get_device_apikey($link) {
 
 function set_cmd($link) {
 	$apikey = printable($_GET['apikey']);
-	$username = printable($_GET['username']);  
+	$username = (isset($_GET['username'])) ? printable($_GET['username']) : '';  
 	if(!auth_device($link, $apikey, $username)) {
 		logmsg(LOG_DEBUG, 'Cannot auth device in set device status ');
 		return true;

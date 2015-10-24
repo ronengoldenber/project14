@@ -6,6 +6,7 @@ define('DB_IP', 			'localhost');
 define('DB_USER', 			'root');
 define('DB_PASS', 			'lannet1');
 define('DB_NAME', 			'1414');
+define('CDR_DB_NAME', 		'cdr');
 define('STATS_SERVER_IP',		'localhost');
 define('STATS_SERVER_PORT',		'4046');
 define('STATSD_SERVER_IP',		'localhost'); 
