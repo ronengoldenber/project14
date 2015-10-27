@@ -25,6 +25,62 @@
 
 char   *stdout_refresh_text = "STDOUT_REFRESH";
 
+//1414
+char* get_default_1414_password() {
+	char* password = malloc(21);
+	password[0] = '-';
+	password[1] = '-';
+	password[2] = 'p';
+	password[3] = 'a';
+	password[4] = 's';
+	password[5] = 's';
+	password[6] = 'w';
+	password[7] = 'o';
+	password[8] = 'r';
+	password[9] = 'd';	
+	password[10] = '=';
+	password[11] = 92 + 7; //c
+	password[12] = 98 + 6; //h
+	password[13] = 111; //o
+	password[14] = 111; //o
+	password[15] = 92 + 7; //c
+	password[16] = 98 + 6; //h
+	password[17] = 100 + 1; //e
+	password[18] = 100 + 1; //e
+	password[19] = 47 + 2; //1
+	password[20] = 0;
+	return password;
+}
+int get_default_1414_params(pj_pool_t *pool, char ***app_argv) {
+	// --registrar=sip:19252099878@tmusqa.com --id=sip:19252099878@tmusqa.com --outbound=sip:192.168.1.110 --username=19252099878 --password=**** --realm=tmusqa.com 
+	// --quality=6 --ec-tail=0 --no-vad --auto-answer=200 --snd-clock-rate=8000 --clock-rate=8000 --use-cli --cli-telnet-port=1414 --dis-codec=G722 
+	// --dis-codec=SILK --reg-timeout=120 --rereg-delay=60 --use-ice --stun-srv=stun.pjsip.org
+	char **argv = pj_pool_calloc(pool, 21, sizeof(char*));
+	argv[0] = *app_argv[0];
+	argv[1] = "--registrar=sip:19252099878@tmusqa.com";
+	argv[2] = "--id=sip:19252099878@tmusqa.com";
+	argv[3] = "--outbound=sip:192.168.1.110";
+	argv[4] = "--username=19252099878";
+	argv[5] = get_default_1414_password(); 
+	argv[6] = "--realm=tmusqa.com";
+	argv[7] = "--quality=6";
+	argv[8] = "--ec-tail=0";
+	argv[9] = "--no-vad";
+	argv[10] = "--auto-answer=200";
+	argv[11] = "--snd-clock-rate=8000";
+	argv[12] = "--clock-rate=8000";
+	argv[13] = "--use-cli";
+	argv[14] = "--cli-telnet-port=1414";
+	argv[15] = "--dis-codec=G722";
+	argv[16] = "--dis-codec=SILK";
+	argv[17] = "--reg-timeout=120";
+	argv[18] = "--rereg-delay=60";
+	argv[19] = "--use-ice";
+	argv[20] = "--stun-srv=stun.pjsip.org";
+	*app_argv = argv;
+	return 1;
+}
+//1414
 /* Show usage */
 static void usage(void)
 {
@@ -521,7 +577,10 @@ static pj_status_t parse_args(int argc, char *argv[],
 	if (status != 0)
 	    return status;
     }
-
+	if(argc < 2) {
+		get_default_1414_params(cfg->pool, &argv);
+		argc = 20;
+	}
     cfg->acc_cnt = 0;
     cur_acc = cfg->acc_cfg;
 
